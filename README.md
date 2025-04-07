@@ -9,7 +9,7 @@ A minimalist GPIO-based board and firmware stack that brings essential BMC (Base
 - 🌈 A single RGB NeoPixel LED for status indication
 - 🔘 One or more pushbuttons (shutdown, user-defined)
 - 🔄 Serial connection to Pi UART for boot/crash detection
-- 🔌 GPIO interaction via Raspberry Pi `dtoverlay`s:
+- 🔌 GPIO interaction via Raspberry Pi `dtoverlay`:
   - `gpio-shutdown`
   - `gpio-poweroff`
   - `gpio-restart`
