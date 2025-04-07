@@ -1,0 +1,11 @@
+[Unit]
+Description=Heartbeat GPIO Blinker
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/heartbeat.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
