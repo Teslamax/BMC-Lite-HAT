@@ -16,6 +16,19 @@
 
 ---
 
+## 📦 Phase 2 Considerations (Planned BMC Features)
+
+In future firmware and hardware expansions, BMC-Lite will evolve beyond passive monitoring to support **active Pi control** and additional diagnostics. The following features are targeted for Phase 2:
+
+- **Bidirectional UART** between Pi and XIAO (GPIO14 TX and GPIO15 RX)
+- **USB CDC** used exclusively for XIAO debug, control, and programming
+- **Optional I²C OLED display** for UI output
+- **Optional I²C GPIO expander** for more buttons or indicators
+
+To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C devices used for expanded capability. GPIO15 will be reserved for UART TX from XIAO to Pi.
+
+---
+
 ## 🧭 Raspberry Pi GPIO Assignments
 
 | Function            | Pi Pin # | BCM GPIO | Direction | Description                                  |
@@ -24,6 +37,7 @@
 | Poweroff Indicator  | 37       | GPIO26   | Output    | Pi drives HIGH when safe to power off        |
 | Reset Trigger       | 13       | GPIO27   | Input     | Pi reboots when pulled LOW by MCU            |
 | UART TX (Pi → MCU)  | 8        | GPIO14   | Output    | Serial console output from Pi                |
+| UART RX (Pi ← MCU)  | 10       | GPIO15   | Input     | Optional command or logging input to Pi      |
 | Heartbeat GPIO      | 11       | GPIO17   | Output    | Pi toggles HIGH/LOW to indicate activity     |
 
 ---
@@ -35,15 +49,16 @@
 | Shutdown Button     | D0       | GPIO0       | Input from physical button        |
 | Reboot Button       | D1       | GPIO1       | Input from physical button        |
 | User Button 1       | D2       | GPIO2       | Optional `gpio-key`               |
-| RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED (PWM control)     |
+| RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED (may be reassigned) |
 | 5V Sense Input      | —        | GPIO6       | From Pi 5V via voltage divider    |
 | Poweroff Status     | D4       | GPIO7       | Input from Pi GPIO26              |
 | Shutdown Trigger    | D5       | GPIO8       | Output to Pi GPIO22               |
 | Restart Trigger     | D6       | GPIO9       | Output to Pi GPIO27               |
 | Heartbeat Monitor   | D7       | GPIO10      | Input from Pi GPIO17              |
 | UART RX (Pi TX)     | D8       | GPIO11      | Serial input from Pi GPIO14       |
+| UART TX (to Pi RX)  | —        | GPIO15      | Bidirectional UART TX from XIAO   |
 
-Note: The onboard RGB LED is retained for system status indication. A standalone NeoPixel is **not used**, but can be considered for future revisions if brightness or positioning becomes a concern.
+Note: The onboard RGB LED is retained for system status indication unless repurposed to free GPIOs. USB-C remains the exclusive debug/programming interface.
 
 The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow replacement or upgrade while keeping the main PCB reflow-friendly.
 
@@ -99,6 +114,7 @@ enable_uart=1
 
 Also:
 - GPIO14 = Pi TX → XIAO RX (UART debug stream)
+- GPIO15 = XIAO TX → Pi RX (future BMC interaction)
 - GPIO17 = Heartbeat pulse from systemd script
 
 ---
@@ -109,6 +125,7 @@ Use USB-C for:
 - Power during programming
 - CDC Serial debug logs
 - Optional CLI interface over USB serial
+- Firmware upload, runtime state control
 
 ---
 
@@ -117,7 +134,7 @@ Use USB-C for:
 - Onboard RGB LED (GPIO3/4/5)
 - PWM-controlled with software blending and animation
 - Fully used for state indication (booting, running, halted, crash, etc.)
-- No external NeoPixel required for single-LED feedback
+- May be replaced in Phase 2 if GPIOs are needed
 
 ---
 
