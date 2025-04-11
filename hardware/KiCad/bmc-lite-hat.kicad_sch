@@ -1,0 +1,17 @@
+
+(kicad_sch (version 20211014) (generator KiCad)
+  (paper "A4")
+  (title_block (title "BMC-Lite-HAT") (rev "v1.0") (comment 1 "Teslamax"))
+  (components
+    (comp (ref U1) (value XIAO-RP2040) (footprint "Seeed:XIAO-RP2040") (fields (field (name "Description") "Main MCU")))
+    (comp (ref D1) (value 1N5819) (footprint "Diode_SMD:D_SMA") (fields (field (name "Description") "Pi 5V → XIAO VIN")))
+    (comp (ref D2) (value 1N5819) (footprint "Diode_SMD:D_SMA") (fields (field (name "Description") "XIAO VIN → Pi 5V")))
+    (comp (ref C1) (value 100uF) (footprint "Capacitor_THT:C_D5.0mm_P2.5mm"))
+    (comp (ref R1) (value 10k) (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm"))
+    (comp (ref R2) (value 4.7k) (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm"))
+    (comp (ref SW1) (value "Shutdown") (footprint "Button_Switch_THT:SW_PUSH_6mm"))
+    (comp (ref SW2) (value "Reboot") (footprint "Button_Switch_THT:SW_PUSH_6mm"))
+    (comp (ref SW3) (value "User1") (footprint "Button_Switch_THT:SW_PUSH_6mm"))
+    (comp (ref J1) (value "GPIO Header") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical"))
+  )
+)

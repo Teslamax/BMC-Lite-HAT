@@ -1,0 +1,16 @@
+
+(kicad_pcb (version 20211014) (generator KiCad)
+  (general (thickness 1.6))
+  (paper "A4")
+  (title_block (title "BMC-Lite-HAT") (rev "v1.0") (comment 1 "Teslamax"))
+  (layers
+    (layer "F.Cu" signal)
+    (layer "B.Cu" signal)
+    (layer "F.SilkS" user)
+    (layer "B.SilkS" user)
+    (layer "F.Mask" user)
+    (layer "B.Mask" user)
+    (layer "Edge.Cuts" user)
+  )
+  (gr_text "BMC-Lite HAT - Teslamax - Rev: ___" (at 50 100) (layer "F.SilkS"))
+)
