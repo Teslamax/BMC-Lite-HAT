@@ -1,5 +1,19 @@
-
-(kicad_sch (version 20231123) (generator "KiCad")
-  (uuid 11111111-1111-1111-1111-111111111111)
-  (title_block (title "BMC-Lite-HAT") (rev "v1.0") (comment 1 "Teslamax"))
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "11111111-1111-1111-1111-111111111111")
+	(paper "A4")
+	(title_block
+		(title "BMC-Lite-HAT")
+		(rev "v1.0")
+		(comment 1 "Teslamax")
+	)
+	(lib_symbols)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )
