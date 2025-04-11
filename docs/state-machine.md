@@ -3,21 +3,21 @@
 This state machine defines how the microcontroller firmware interprets the system status of a Raspberry Pi connected via GPIO, UART, and other inputs. The LED status reflects the active state to provide intuitive, real-time visual feedback for headless setups.
 
 ```mermaid
-stateDiagram-v2
-    [*] --> OFF
-    OFF --> BOOTING : Pi 5V detected
-    BOOTING --> RUNNING : boot log
-    BOOTING --> CRASHED : panic log
-    RUNNING --> SHUTTING_DOWN : shutdown log
-    RUNNING --> UNRESPONSIVE : heartbeat timeout
-    SHUTTING_DOWN --> HALTED : GPIO26 HIGH
-    UNRESPONSIVE --> HALTED : GPIO26 HIGH
-    CRASHED --> HALTED : GPIO26 HIGH
+stateDiagram-v2;
+    [*] --> OFF;
+    OFF --> BOOTING; : Pi 5V detected
+    BOOTING --> RUNNING; : boot log
+    BOOTING --> CRASHED; : panic log
+    RUNNING --> SHUTTING_DOWN; : shutdown log
+    RUNNING --> UNRESPONSIVE; : heartbeat timeout
+    SHUTTING_DOWN --> HALTED; : GPIO26 HIGH
+    UNRESPONSIVE --> HALTED; : GPIO26 HIGH
+    CRASHED --> HALTED; : GPIO26 HIGH
 
-    OFF --> OVERRIDE : manual
-    RUNNING --> OVERRIDE : manual
-    OVERRIDE --> RUNNING : exit override
-    OVERRIDE --> BOOTING : simulate boot
+    OFF --> OVERRIDE; : manual
+    RUNNING --> OVERRIDE; : manual
+    OVERRIDE --> RUNNING; : exit override
+    OVERRIDE --> BOOTING; : simulate boot
 
     state OVERRIDE {
       note right of OVERRIDE : User test / forced state
