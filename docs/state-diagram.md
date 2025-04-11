@@ -1,3 +1,0 @@
-# State Diagram
-
-TBD
