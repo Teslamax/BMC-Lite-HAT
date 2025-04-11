@@ -121,7 +121,7 @@ Also:
 
 ## 🧪 Debugging
 
-Use USB-C for:
+USB-C is used on all versions of this project for:
 - Power during programming
 - CDC Serial debug logs
 - Optional CLI interface over USB serial
