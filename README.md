@@ -147,8 +147,3 @@ MIT or CC-BY 4.0, TBD
 
 ## 💬 Credits
 Created by [You], with architectural guidance from ChatGPT. Inspired by real-world BMCs, IPMI, systemd, and the idea that small devices deserve good UX too.
-
-
-
-## 💬 Credits
-Created by [You], with architectural guidance from ChatGPT. Inspired by real-world BMCs, IPMI, systemd, and the idea that small devices deserve good UX too.
