@@ -131,6 +131,13 @@ USB-C is used on all versions of this project for:
 
 ## 💡 LED Status
 
+### Silkscreen Info
+This board should include the following on the silkscreen:
+- **"BMC-Lite HAT"** as the board name (or stylized variant)
+- **"Teslamax"** as the author or GitHub handle
+- **Version identifier space** such as `Rev: ___` to be manually filled or incremented
+
+
 - Onboard RGB LED (GPIO3/4/5)
 - PWM-controlled with software blending and animation
 - Fully used for state indication (booting, running, halted, crash, etc.)
