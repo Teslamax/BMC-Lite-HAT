@@ -4347,7 +4347,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fb308dc0-be8b-4a23-9887-329ea2760876")
-		(property "Reference" "SW2"
+		(property "Reference" "SW1_XIAO-POWER-ISOLATION"
 			(at 127 27.94 0)
 			(effects
 				(font
@@ -4355,7 +4355,7 @@
 				)
 			)
 		)
-		(property "Value" "DEV - RUN POWER ISOLATION"
+		(property "Value" "DEV - RUN"
 			(at 127 30.48 0)
 			(effects
 				(font
@@ -4399,7 +4399,7 @@
 		(instances
 			(project ""
 				(path "/11111111-1111-1111-1111-111111111111"
-					(reference "SW2")
+					(reference "SW1_XIAO-POWER-ISOLATION")
 					(unit 1)
 				)
 			)
