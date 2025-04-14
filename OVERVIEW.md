@@ -76,6 +76,42 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ---
 
+## 🔢 GPIO Allocation Summary
+
+### ✅ GPIOs Used on the XIAO RP2040
+
+| GPIO  | Pin | Purpose                                 |
+|-------|-----|-----------------------------------------|
+| 0     | 1   | UART TX → Pi (GPIO15)                   |
+| 1     | 2   | UART RX ← Pi (GPIO14)                   |
+| 4     | 10  | I²C SDA → OLED & Expander (Addr `0x3C`, `0x20`) |
+| 5     | 5   | I²C SCL → OLED & Expander               |
+| 6     | 6   | Shutdown signal → Pi (GPIO17)           |
+| 7     | 7   | Reboot signal → Pi (GPIO27)             |
+| 8     | 8   | User-defined button → Pi (GPIO22)       |
+| 9     | 9   | Ready signal ← Pi (GPIO5)               |
+| 10    | 10  | Heartbeat ← Pi (GPIO6)                  |
+| 26    | 1   | INT ← I²C expander                      |
+
+> The 3 buttons (shutdown, reboot, user1) are debounced in software on the XIAO before being driven out to the Pi GPIOs. Each button uses **2 GPIOs on the XIAO** (input + gated output). The 6 total debounced outputs are handled by the I²C expander.
+
+---
+
+### 🟡 Reserved or Flexible GPIOs
+
+| GPIO  | Pin | Alt Function | Suggested Use |
+|-------|-----|--------------|----------------|
+| 2     | 9   | SPI SCK      | Reserve for future SPI use or test/debug |
+| 3     | 11  | SPI MISO     | Same as above |
+| 4     | 10  | SPI MOSI     | Dual-use (currently I²C SDA) |
+| 27    | 2   | —            | General GPIO (digital) |
+| 28    | 3   | —            | General GPIO (ADC capable) |
+| 29    | 4   | —            | General GPIO (ADC capable) |
+
+> These 6 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
+
+---
+
 ## 📁 File Structure
 
 - `OVERVIEW.md` – This file
@@ -86,5 +122,7 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ---
 
+
+Let me know if you'd like a Markdown-formatted version with collapsible sections or a printable GPIO cheat sheet for your workspace!
 This configuration allows safe, clear separation between development and deployment while avoiding USB damage risk. Let me know if you want an annotated power diagram or switch layout!
 
