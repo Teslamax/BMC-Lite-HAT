@@ -34,14 +34,14 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ### ⚠️ Note:
 - Never connect both USB-C and Pi 5V with the switch in the wrong position.
-- A properly labeled switch position (e.g., "DEV ←→ RUN") is strongly recommended.
+- A properly labeled switch position (e.g., "`DEV` ←→ `RUN`") is strongly recommended.
 
 ---
 
 ## 🔋 Power Architecture
 
 - **V_SYS rail** is shared between Pi 5V (via diode) and optional USB power
-- XIAO VBUS (Pin 14) is connected to V_SYS in RUN mode
+- XIAO VBUS (Pin 14) is connected to V_SYS in `RUN` mode (switch `SW1_XIAO-POWER-ISOLATION` is closed)
 - Schottky diode (e.g., SS14 or BAT54) protects the Pi from reverse current when USB is connected
 
 ---
