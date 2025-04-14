@@ -67,9 +67,9 @@ Add this to `/boot/config.txt` on the Pi:
 dtoverlay=gpio-led,gpio=6,trigger=heartbeat
 ```
 
-- This configures **GPIO6 (Pin 31)** to pulse at ~1Hz automatically
+- This configures **RPI GPIO6 (Pin 31)** to pulse at ~1Hz automatically
 - Signal starts early in boot and requires no additional software
-- Connect GPIO6 to **XIAO GPIO10 (Pin 10)** to monitor
+- Connect **RPI GPIO6** to **I2C Expander-MCP23008 GPIO7 (Pin 119)** to monitor
 
 ---
 
