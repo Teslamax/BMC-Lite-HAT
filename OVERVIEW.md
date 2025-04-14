@@ -24,7 +24,7 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ### 🛠 DEV Mode (Debugging)
 - XIAO RP2040 is powered via USB-C from your Mac/PC
-- Pi also connected to your Mac for serial/SSH
+- Pi also connected to your Mac for serial/SSH/power (Pi Zero 2)
 - **Switch disables Pi 5V connection to XIAO**, preventing USB port backfeed
 
 ### 🚀 RUN Mode (Deployment)
