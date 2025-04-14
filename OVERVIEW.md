@@ -113,7 +113,7 @@ dtoverlay=gpio-led,gpio=6,trigger=heartbeat
 |   6   |  18 | RDY_SHUTDOWN                      | IN      |
 |   7   |  19 | HEARTBEAT                         | IN      |
 
-> The 3 buttons (shutdown, reboot, user1) are debounced in software on the XIAO before being driven out to the Pi GPIOs. Each button uses **2 GPIOs on the XIAO** (input + gated output). The 6 total debounced outputs are handled by the I²C expander.
+> The 3 buttons (shutdown, reboot, user1) are debounced in software on the XIAO before being driven out to the Pi GPIOs. Each button uses **2 GPIOs on the I²C expander** (input + gated output). The 6 total debounced outputs are handled by the I²C expander.
 
 ---
 
