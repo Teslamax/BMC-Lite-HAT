@@ -48,10 +48,10 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ## 🧱 Physical Configuration
 
-- Board form factor: smaller than pHAT, compatible with Pi Zero GPIO headers
+- Board form factor: pHAT or smaller if possible, compatible with Pi Zero GPIO headers
 - GPIO header footprint supports stacking headers or through-holes only
 - OLED I²C header (4-pin, with labeled address: `0x3C`)
-- Optional I²C GPIO expander (MCP23008 or MCP23017 footprint, unpopulated unless needed)
+- I²C GPIO expander (MCP23008 or MCP23017 footprint, unpopulated unless needed)
 
 ---
 
@@ -69,7 +69,7 @@ dtoverlay=gpio-led,gpio=6,trigger=heartbeat
 
 - This configures **RPI GPIO6 (Pin 31)** to pulse at ~1Hz automatically
 - Signal starts early in boot and requires no additional software
-- Connect **RPI GPIO6** to **I2C Expander-MCP23008 GPIO7 (Pin 119)** to monitor
+- Connect **RPI GPIO6** to **I2C Expander-MCP23008 GPIO7 (Pin 19)** to monitor
 
 ---
 
