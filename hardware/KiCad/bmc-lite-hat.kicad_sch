@@ -2691,6 +2691,27 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "I2C Expander"
+		(exclude_from_sim yes)
+		(at 58.166 105.156 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0ed02279-b81b-484c-9e85-86761977de89")
+	)
+	(text "RPI GPIO HEADER"
+		(exclude_from_sim yes)
+		(at 220.98 66.548 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "84e37b59-6363-4522-8638-30bdb9385dbb")
+	)
 	(wire
 		(pts
 			(xy 170.18 76.2) (xy 152.4 76.2)
