@@ -91,16 +91,16 @@ dtoverlay=gpio-led,gpio=6,trigger=heartbeat
 
 | GPIO  | Pin | Alt Function | Suggested Use                          |
 |-------|-----|--------------|----------------------------------------|
-| 27    | 2   | —            | General GPIO (digital)                 |
-| 28    | 3   | —            | General GPIO (ADC capable)            |
-| 29    | 4   | —            | General GPIO (ADC capable)            |
+| 27    | 2   | ADC1         | General GPIO (ADC capable)             |
+| 28    | 3   | ADC2         | General GPIO (ADC capable)             |
+| 29    | 4   | ADC3         | General GPIO (ADC capable)             |
 | 2     | 9   | SPI SCK      | Reserve for future SPI use or test/debug |
-| 4     | 10  | SPI MISO
+| 4     | 10  | SPI MISO     | Same as above                          |
 | 3     | 11  | SPI MOSI     | Same as above                          |
 
-> These 5 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
+> These 6 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
 
-### GPIOs Used on the I2C expander (MCP23008)
+### ✅ GPIOs Used on the I²C expander (MCP23008)
 
 | GPIO  | Pin | Purpose                           | IN/OUT  |
 |-------|-----|-----------------------------------|---------|
