@@ -38,7 +38,7 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ---
 
-## 🔌 Power Architecture
+## 🔋 Power Architecture
 
 - **V_SYS rail** is shared between Pi 5V (via diode) and optional USB power
 - XIAO VBUS (Pin 14) is connected to V_SYS in RUN mode
@@ -50,29 +50,26 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 - Board form factor: smaller than pHAT, compatible with Pi Zero GPIO headers
 - GPIO header footprint supports stacking headers or through-holes only
-- OLED I²C header (4-pin, with labeled address: 0x3C)
+- OLED I²C header (4-pin, with labeled address: `0x3C`)
 - Optional I²C GPIO expander (MCP23008 or MCP23017 footprint, unpopulated unless needed)
 
 ---
 
-## 🔧 Prototyping Notes
+## 📡 Heartbeat Signal Configuration
 
-- Use a solderless breadboard for initial testing
-- Use long-lead tactile switches if buttons don't contact
-- XIAO Pin 14 = VBUS (5V in)
-- XIAO Pin 13 = GND
-- UART (TX/RX), I²C (SDA/SCL), and control signals mapped in `pins.md`
+To indicate that the Pi is alive and Linux is running, a pulsed heartbeat signal is sent to the XIAO:
 
----
+### 🫀 Enable Heartbeat via `config.txt`
 
-## 🔋 Power Safety Summary
+Add this to `/boot/config.txt` on the Pi:
 
-| Condition | Safe? | Notes |
-|-----------|-------|-------|
-| Only Pi USB connected | ✅ | Pi powers XIAO through diode |
-| Only XIAO USB connected | ✅ | USB powers XIAO |
-| Both connected, switch in DEV mode | ✅ | Pi 5V is disconnected from XIAO |
-| Both connected, switch in RUN mode | ❌ | Risk of backfeed between USB ports |
+```ini
+dtoverlay=gpio-led,gpio=6,trigger=heartbeat
+```
+
+- This configures **GPIO6 (Pin 31)** to pulse at ~1Hz automatically
+- Signal starts early in boot and requires no additional software
+- Connect GPIO6 to **XIAO GPIO10 (Pin 10)** to monitor
 
 ---
 
@@ -80,49 +77,76 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 
 ### ✅ GPIOs Used on the XIAO RP2040
 
-| GPIO  | Pin | Purpose                                 |
-|-------|-----|-----------------------------------------|
-| 0     | 1   | UART TX → Pi (GPIO15)                   |
-| 1     | 2   | UART RX ← Pi (GPIO14)                   |
-| 4     | 10  | I²C SDA → OLED & Expander (Addr `0x3C`, `0x20`) |
-| 5     | 5   | I²C SCL → OLED & Expander               |
-| 6     | 6   | Shutdown signal → Pi (GPIO17)           |
-| 7     | 7   | Reboot signal → Pi (GPIO27)             |
-| 8     | 8   | User-defined button → Pi (GPIO22)       |
-| 9     | 9   | Ready signal ← Pi (GPIO5)               |
-| 10    | 10  | Heartbeat ← Pi (GPIO6)                  |
-| 26    | 1   | INT ← I²C expander                      |
+| GPIO  | Pin | Purpose                                     |
+|-------|-----|---------------------------------------------|
+| 26    | 1   | INT ← I²C expander                          |
+| 6     | 5   | I²C SDA → OLED & Expander (Addr `0x3C`, `0x20`) |
+| 7     | 6   | I²C SCL → OLED & Expander                   |
+| 0     | 7   | UART TX → Pi (GPIO15)                       |
+| 1     | 8   | UART RX ← Pi (GPIO14)                       |
+
+---
+
+### 🟡 Reserved or Flexible GPIOs on the XIAO RP2040
+
+| GPIO  | Pin | Alt Function | Suggested Use                          |
+|-------|-----|--------------|----------------------------------------|
+| 27    | 2   | —            | General GPIO (digital)                 |
+| 28    | 3   | —            | General GPIO (ADC capable)            |
+| 29    | 4   | —            | General GPIO (ADC capable)            |
+| 2     | 9   | SPI SCK      | Reserve for future SPI use or test/debug |
+| 4     | 10  | SPI MISO
+| 3     | 11  | SPI MOSI     | Same as above                          |
+
+> These 5 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
+
+### GPIOs Used on the I2C expander (MCP23008)
+
+| GPIO  | Pin | Purpose                           | IN/OUT  |
+|-------|-----|-----------------------------------|---------|
+|   0   |  12 | SHUTDOWN debounced                | OUT     |
+|   1   |  13 | SHUTDOWN button                   | IN      |
+|   2   |  14 | REBOOT debounced                  | OUT     |
+|   3   |  15 | REBOOT button                     | IN      |
+|   4   |  16 | USER1 debounced                   | OUT     |
+|   5   |  17 | USER1 button                      | IN      |
+|   6   |  18 | RDY_SHUTDOWN                      | IN      |
+|   7   |  19 | HEARTBEAT                         | IN      |
 
 > The 3 buttons (shutdown, reboot, user1) are debounced in software on the XIAO before being driven out to the Pi GPIOs. Each button uses **2 GPIOs on the XIAO** (input + gated output). The 6 total debounced outputs are handled by the I²C expander.
 
 ---
 
-### 🟡 Reserved or Flexible GPIOs
+## 🔐 Power Safety Summary
 
-| GPIO  | Pin | Alt Function | Suggested Use |
-|-------|-----|--------------|----------------|
-| 2     | 9   | SPI SCK      | Reserve for future SPI use or test/debug |
-| 3     | 11  | SPI MISO     | Same as above |
-| 4     | 10  | SPI MOSI     | Dual-use (currently I²C SDA) |
-| 27    | 2   | —            | General GPIO (digital) |
-| 28    | 3   | —            | General GPIO (ADC capable) |
-| 29    | 4   | —            | General GPIO (ADC capable) |
-
-> These 6 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
+| Condition                     | Safe? | Notes                                             |
+|------------------------------|-------|---------------------------------------------------|
+| Only Pi USB connected        | ✅    | Pi powers XIAO through diode                     |
+| Only XIAO USB connected      | ✅    | USB powers XIAO                                  |
+| Both connected, switch = DEV | ✅    | Pi 5V is disconnected from XIAO                  |
+| Both connected, switch = RUN | ❌    | Risk of backfeed between USB ports               |
 
 ---
 
 ## 📁 File Structure
 
-- `OVERVIEW.md` – This file
-- `pins.md` – Pin mappings and signal roles
-- `power.md` – Diagrams and circuit details for power sharing
-- `schematic.kicad_sch` – KiCad schematic
-- `pcb.kicad_pcb` – KiCad board layout
+| File                | Description                              |
+|---------------------|------------------------------------------|
+| `OVERVIEW.md`       | Project overview and hardware architecture |
+| `pins.md`           | Detailed pin mapping and overlays         |
+| `power.md`          | Power path diagrams and safety notes      |
+| `schematic.kicad_sch` | Main KiCad schematic file                |
+| `pcb.kicad_pcb`     | PCB layout for KiCad                      |
 
 ---
 
+## 📌 Quick Reference
 
-Let me know if you'd like a Markdown-formatted version with collapsible sections or a printable GPIO cheat sheet for your workspace!
-This configuration allows safe, clear separation between development and deployment while avoiding USB damage risk. Let me know if you want an annotated power diagram or switch layout!
-
+| Component         | Platform       | Notes                                     |
+|------------------|----------------|-------------------------------------------|
+| MCU              | XIAO RP2040    | Pre-soldered to board                     |
+| Host             | Raspberry Pi   | GPIO-linked, not USB-connected            |
+| Power Switch     | DEV / RUN      | Slide or jumper select                    |
+| I²C OLED Address | `0x3C`         | XIAO-only I²C                             |
+| I²C Expander Addr| `0x20`         | MCP23008 or MCP23017                      |
+| UART             | TX/RX to Pi    | Used optionally for Pi console passthrough |
