@@ -2724,6 +2724,26 @@
 	)
 	(wire
 		(pts
+			(xy 119.38 41.91) (xy 125.73 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "136ea2f9-ae41-43e5-bf0e-cdc9339d2e2f")
+	)
+	(wire
+		(pts
+			(xy 157.48 41.91) (xy 154.94 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "16fc1013-54c5-43e0-9be1-b6392cf757c4")
+	)
+	(wire
+		(pts
 			(xy 228.6 81.28) (xy 227.33 81.28)
 		)
 		(stroke
@@ -3356,7 +3376,7 @@
 	)
 	(global_label "V_RPI_5V"
 		(shape bidirectional)
-		(at 154.94 41.91 0)
+		(at 157.48 41.91 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3366,7 +3386,7 @@
 		)
 		(uuid "9ce03015-28db-4678-996c-c4a9fb754ee0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 166.6902 41.91 0)
+			(at 169.2302 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3466,7 +3486,7 @@
 	)
 	(global_label "V_XIAO_5V"
 		(shape bidirectional)
-		(at 125.73 41.91 180)
+		(at 119.38 41.91 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3476,7 +3496,7 @@
 		)
 		(uuid "e87524bc-77c8-44e7-8bf6-55940b8d859a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 112.8912 41.91 0)
+			(at 106.5412 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
