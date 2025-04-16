@@ -44,8 +44,8 @@ To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C device
 |---------------------|----------|-------------|-----------------------------------|
 | I²C expander interrupt | 1 - `INT` | `GPIO26` | | |
 | RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED |
-| UART `TX`     | 7 - `TX`        | GPIO15      | Bidirectional UART TX from XIAO   |
-| UART `RX`     | 8 - `RX`       | GPIO11      | Serial input from Pi GPIO14       |
+| UART `TX` (MCU → Pi)     | 7        | `GPIO0`/`TX`      | Optional command or logging input to Pi   |
+| UART `RX` (MCU ← Pi)     | 8       | `GPIO1`/`RX`      | Serial console input from Pi GPIO14       |
 | I²C data | 5 | `SDA` | I²C - data | I²C data |
 | I²C clock | 6 | `SCL` | I²C - clock | I²C clock |
 
