@@ -2,22 +2,22 @@
 
 ## 🔌 XIAO RP2040 GPIO Assignments
 
-| GPIO | Pin | Function           | Direction     | Connected To         | Notes                              |
-|------|-----|--------------------|---------------|----------------------|------------------------------------|
-| 26   | 1   | INT from Expander  | Input         | MCP23017 INT Pin     | INT fires on button state changes  |
-| 27   | 2   | Free (ADC)         | —             | —                    | General-purpose                    |
-| 28   | 3   | Free (ADC)         | —             | —                    | ADC-capable input                  |
-| 29   | 4   | Free (ADC)         | —             | —                    | ADC-capable input                  |
-| 6    | 5   | I²C SDA            | Bidirectional | OLED, GPIO Expander  | Addr `0x3C` (OLED), `0x20` (MCP)   |
-| 7    | 6   | I²C SCL            | Bidirectional | OLED, GPIO Expander  | Shared I²C bus                     |
-| 0    | 7   | UART TX            | XIAO → Pi     | Pi GPIO15 (Pin 10)   | UART console                       |
-| 1    | 8   | UART RX            | Pi → XIAO     | Pi GPIO14 (Pin 8)    | UART console                       |
-| 2    | 9   | Free (SPI-SCK)     | —             | —                    | —                   |
-| 4    | 10  | `HEARTBEAT`        | Input         | Pi GPIO6 (Pin 31)    | dtoverlay-driven 1Hz pulse         |
-| 3    | 11  | Free (SPI-MOSI)    | —             | —                    | —                   |
-| —    | 12  | `3V3`              | —             | —                    | —                   |
-| —    | 13  | `GND`              | —             | —                    | —                   |
-| —    | 14  | `VBUS`             | —             | —                    | —                   |
+| GPIO | Pin | Function            | Direction     | Connected To         | Notes                              |
+|------|-----|---------------------|---------------|----------------------|------------------------------------|
+| 26   | 1   | `INT` from Expander | Input         | MCP23017 INT Pin     | INT fires on button state changes  |
+| 27   | 2   | Free (`ADC1`)       | —             | —                    | General-purpose                    |
+| 28   | 3   | Free (`ADC2`)       | —             | —                    | ADC-capable input                  |
+| 29   | 4   | Free (`ADC3`)       | —             | —                    | ADC-capable input                  |
+| 6    | 5   | I²C `SDA`           | Bidirectional | OLED, GPIO Expander  | Addr `0x3C` (OLED), `0x20` (MCP)   |
+| 7    | 6   | I²C `SCL`           | Bidirectional | OLED, GPIO Expander  | Shared I²C bus                     |
+| 0    | 7   | UART `TX`           | XIAO → Pi     | Pi GPIO15 (Pin 10)   | UART console                       |
+| 1    | 8   | UART `RX`           | Pi → XIAO     | Pi GPIO14 (Pin 8)    | UART console                       |
+| 2    | 9   | Free (`SPI`-`SCK`)  | —             | —                    | —                                  |
+| 4    | 10  | `HEARTBEAT`         | Input         | Pi GPIO6 (Pin 31)    | dtoverlay-driven 1Hz pulse         |
+| 3    | 11  | Free (`SPI`-`MOSI`) | —             | —                    | —                                  |
+| —    | 12  | `3V3`               | —             | —                    | —                                  |
+| —    | 13  | `GND`               | —             | —                    | —                                  |
+| —    | 14  | `VBUS`              | —             | —                    | —                                  |
 
 ---
 
