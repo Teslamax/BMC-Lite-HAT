@@ -51,7 +51,7 @@ To safely support debugging over USB while also allowing Pi-powered deployment, 
 - Board form factor: pHAT or smaller if possible, compatible with Pi Zero GPIO headers
 - GPIO header footprint supports stacking headers or through-holes only
 - OLED I²C header (4-pin, with labeled address: `0x3C`)
-- I²C GPIO expander (MCP23008 or MCP23017 footprint, unpopulated unless needed)
+- I²C GPIO expander (MCP23008 or MCP23017 footprint,, with labeled address: `0x20`)
 
 ---
 
