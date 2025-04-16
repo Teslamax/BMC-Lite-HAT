@@ -59,8 +59,8 @@ The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow re
 
 | Function            | Pin      | Label       | Direction | Notes                             |
 |---------------------|----------|-------------|:---:|-----------------------------------|
-| I²C clock           | 12       | `SCL`       | BUS | I²C - clock |
-| I²C data            | 13       | `SDA`       | BUS | I²C - data |
+| I²C clock           | 12       | `SCL`       | BUS | I²C clock |
+| I²C data            | 13       | `SDA`       | BUS | I²C data |
 | Interrupt           | 20       | `INT`       | OUT | I²C expander interrupt to MCU |
 | Poweroff Status     | 21       | `GPA0`      | IN | Input from Pi ``            |
 | Shutdown Trigger    | 22       | `GPA1`      | IN |  Output to Pi `GPIO22`            |
