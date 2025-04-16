@@ -16,35 +16,34 @@
 
 ---
 
-## 🔌 MCP23017 GPIO Expander (Prototyping Phase)
+## 🔌 MCP23017 GPIO Expander (Prototyping Phase) (I²C addr `0x20`)
 
-| Bank  | Pin      | Function             | Direction | Connected To | Notes                  |
-|-------|----------|----------------------|-----------|---------------|------------------------|
-| GPA0  | Shutdown button | Input                | Input     | Shutdown button      | Debounced in software  |
-| GPA1  | Reboot button | Input                | Input     | Reboot button      |                        |
-| GPA2  | User button | Input                | Input     | User button      |                        |
-| GPA6  | Poweroff-Ready | Input ||||
-| GPA4  | Shutdown | Output to Pi        | Output    | Pi GPIO17     | Debounced logic state  |
-| GPA5  | Reboot   | Output to Pi        | Output    | Pi GPIO27     |                        |
-| GPA6  | User     | Output to Pi        | Output    | Pi GPIO22     |                        |
-
-| GPx3–7| —        | Unused               | —         | —             | Reserved for expansion |
+| Bank  | Pin             | Function             | Direction | Connected To    | Notes                  |
+|-------|-----------------|----------------------|-----------|-----------------|------------------------|
+| GPA0  | Shutdown button | Input                | Input     | Shutdown button | Debounced in software  |
+| GPA1  | Reboot button   | Input                | Input     | Reboot button   | Debounced in software  |
+| GPA2  | User button     | Input                | Input     | User button     | Debounced in software  |
+| GPA6  | Poweroff-Ready  | Input                |           |                 |                        |
+| GPA4  | Shutdown        | Signal safe halt     | XIAO → Pi | Pi GPIO17       | Debounced logic state  |
+| GPA5  | Reboot          | Signal safe reboot   | XIAO → Pi | Pi GPIO27       | Debounced logic state  |
+| GPA6  | User            | Signal user-defined  | XIAO → Pi | Pi GPIO22       | Debounced logic state  |
+| GPA7  | —               | Unused               | —         | —               | Reserved for expansion |
+| GPB*  | —               | Unused               | —         | —               | Reserved for expansion |
 
 ---
 
 ## 🔌 Raspberry Pi GPIO Assignments
 
-| Pi GPIO | Pin | Function           | Direction   | Connected To     | Notes                           |
-|---------|-----|--------------------|-------------|------------------|---------------------------------|
-| 5       | 29  | Poweroff-Ready     | Output      | XIAO GPIO9       | High when safe to power off     |
-| 6       | 31  | Heartbeat          | Output      | XIAO GPIO10      | dtoverlay: gpio-led trigger     |
-| 17      | 11  | Shutdown Trigger   | Input       | XIAO or Expander | dtoverlay=gpio-shutdown         |
-| 27      | 13  | Reboot Trigger     | Input       | XIAO or Expander | dtoverlay=gpio-restart          |
-| 22      | 15  | User-defined Input | Input       | XIAO or Expander | Optional override or trigger    |
-| 14      | 8   | UART TX            | Output      | XIAO RX (GPIO1)  | Serial console                  |
-| 15      | 10  | UART RX            | Input       | XIAO TX (GPIO0)  | Serial console                  |
-| 2/4     | 3/5 | I²C SDA/SCL        | (Unused)    | —                | Not shared with XIAO I²C        |
-| 2       | 4   | 5V Power           | Output      | XIAO VBUS via diode | Used only in RUN mode      |
+| Pi GPIO | Pin | Function           | Direction   | Connected To        | Notes                           |
+|---------|-----|--------------------|-------------|---------------------|---------------------------------|
+| 2       | 4   | 5V Power           | Output      | XIAO VBUS via diode | —                               |
+| 5       | 29  | Poweroff-Ready     | Output      | Expander            | High when safe to power off     |
+| 6       | 31  | Heartbeat          | Output      | XIAO GPIO10         | dtoverlay: gpio-led trigger     |
+| 17      | 11  | Shutdown Trigger   | Input       | Expander            | `dtoverlay=gpio-shutdown`       |
+| 27      | 13  | Reboot Trigger     | Input       | Expander            | `dtoverlay=gpio-restart`        |
+| 22      | 15  | User-defined Input | Input       | Expander            | Optional override or trigger    |
+| 14      | 8   | UART TX            | Output      | XIAO RX (GPIO1)     | Serial console                  |
+| 15      | 10  | UART RX            | Input       | XIAO TX (GPIO0)     | Serial console                  |
 
 ---
 
