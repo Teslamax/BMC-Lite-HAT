@@ -1,4 +1,4 @@
-# 📌 BMC-Lite HAT Pin Mapping
+# BMC-Lite HAT Pin Mapping
 
 ## 🔌 XIAO RP2040 GPIO Assignments
 
@@ -17,11 +17,6 @@
 | 27   | 2   | Free               | —             | —                    | General-purpose                    |
 | 28   | 3   | Free (ADC)         | —             | —                    | ADC-capable input                  |
 | 29   | 4   | Free (ADC)         | —             | —                    | ADC-capable input                  |
-
-> ⚠️ Note: According to Seeed Studio's schematic, the XIAO RP2040 includes a Schottky diode between USB 5V (VBUS) and the 5V input rail to its internal DC-DC converter. This is intended to **protect against backfeeding** when 5V is applied to Pin 14 while the USB-C is also connected. While this hardware protection exists, official documentation warns:
-> “XIAO RP2040 currently only supports battery power supply and cannot connect to Type-C while a battery is connected, as it may pose a safety risk.”
->
-> This likely serves as a **conservative safety/lawyer notice**, but in practice, with correct use of **power source selection via Schottky diodes or a switch**, simultaneous connections can be made **safely** for debug/dev use. Proceed cautiously and avoid having multiple 5V sources active without proper current-direction control.
 
 ---
 
@@ -59,11 +54,10 @@
 
 | Signal | Pi Pin(s) | XIAO Pin | Notes                         |
 |--------|-----------|----------|-------------------------------|
-| 5V     | 2 or 4    | 14 (VBUS) | Via Schottky, controlled by switch |
+| 5V     | 2 or 4    | 14 (VBUS) | Via Schottky, dual-source capable — see note below |
 | GND    | 6, 9, etc | 13       | Shared ground reference        |
 
----
-
-> This pinout reflects the current working configuration. If any changes are made to wiring or GPIO assignment, update this document as the single source of truth.
-> Link this file from all project documentation (`README.md`, `OVERVIEW.md`, etc.).
+> ⚠️ **Note on VBUS and Power Safety:**
+>
+> The XIAO RP2040 includes an internal Schottky diode between its USB-C VBUS input and Pin 14 (VBUS). This prevents backfeed from external 5V sources (like the Pi) into the USB port. When combined with an external Schottky diode protecting the Pi's 5V rail, this configuration allows safe, simultaneous connection of both USB-C and Pi 5V power. Seeed Studio's documentation includes a generalized warning about battery safety that applies to other XIAO boards with LiPo support — the RP2040 variant has no VBAT or battery charging circuitry. Therefore, powering VBUS (Pin 14) from the Pi while USB-C is also connected is safe **when both power sources are isolated via diodes.**
 
