@@ -4,15 +4,20 @@
 
 | GPIO | Pin | Function           | Direction     | Connected To         | Notes                              |
 |------|-----|--------------------|---------------|----------------------|------------------------------------|
-| 0    | 1   | UART TX            | XIAO → Pi     | Pi GPIO15 (Pin 10)   | UART console                       |
-| 1    | 2   | UART RX            | Pi → XIAO     | Pi GPIO14 (Pin 8)    | UART console                       |
-| 4    | 10  | I²C SDA            | Bidirectional | OLED, GPIO Expander  | Addr `0x3C` (OLED), `0x20` (MCP)   |
-| 5    | 5   | I²C SCL            | Bidirectional | OLED, GPIO Expander  | Shared I²C bus                     |
-| 10   | 10  | Heartbeat          | Input         | Pi GPIO6 (Pin 31)    | dtoverlay-driven 1Hz pulse         |
 | 26   | 1   | INT from Expander  | Input         | MCP23017 INT Pin     | INT fires on button state changes  |
-| 27   | 2   | Free               | —             | —                    | General-purpose                    |
+| 27   | 2   | Free (ADC)         | —             | —                    | General-purpose                    |
 | 28   | 3   | Free (ADC)         | —             | —                    | ADC-capable input                  |
 | 29   | 4   | Free (ADC)         | —             | —                    | ADC-capable input                  |
+| 6    | 5   | I²C SDA            | Bidirectional | OLED, GPIO Expander  | Addr `0x3C` (OLED), `0x20` (MCP)   |
+| 7    | 6   | I²C SCL            | Bidirectional | OLED, GPIO Expander  | Shared I²C bus                     |
+| 0    | 7   | UART TX            | XIAO → Pi     | Pi GPIO15 (Pin 10)   | UART console                       |
+| 1    | 8   | UART RX            | Pi → XIAO     | Pi GPIO14 (Pin 8)    | UART console                       |
+| 2    | 9   | Free (SPI-SCK)     | —             | —                    | —                   |
+| 4    | 10  | `HEARTBEAT`        | Input         | Pi GPIO6 (Pin 31)    | dtoverlay-driven 1Hz pulse         |
+| 3    | 11  | Free (SPI-MOSI)    | —             | —                    | —                   |
+| —    | 12  | `3V3`              | —             | —                    | —                   |
+| —    | 13  | `GND`              | —             | —                    | —                   |
+| —    | 14  | `VBUS`             | —             | —                    | —                   |
 
 ---
 
