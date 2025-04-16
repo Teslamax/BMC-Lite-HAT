@@ -46,8 +46,8 @@ To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C device
 | RGB LED             | —        | GPIO3/4/5   |   | Onboard RGB LED |
 | UART `TX` (MCU → Pi)     | 7        | `GPIO0`/`TX`      | OUT | Optional command or logging input to Pi   |
 | UART `RX` (MCU ← Pi)     | 8       | `GPIO1`/`RX`      | IN | Serial console input from Pi GPIO14       |
-| I²C data | 5 | `SDA` | I²C - data | BUS | I²C data |
-| I²C clock | 6 | `SCL` | I²C - clock | BUS | I²C clock |
+| I²C data | 5 | `SDA` | BUS | I²C data |
+| I²C clock | 6 | `SCL` | BUS | I²C clock |
 
 Note: The onboard RGB LED is retained for system status indication unless repurposed to free GPIOs. USB-C remains the exclusive debug/programming interface.
 
