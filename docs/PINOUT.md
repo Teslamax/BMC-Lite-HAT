@@ -62,13 +62,13 @@
 | Pi GPIO | Pin | Function           | Direction   | Connected To          | Notes                           |
 |---------|-----|--------------------|-------------|-----------------------|---------------------------------|
 | 2       | 4   | 5V Power           | Output      | XIAO `VBUS` via diode | —                               |
-| 5       | 29  | Poweroff-Ready     | Output      | Expander              | High when safe to power off     |
-| 6       | 31  | `HEARTBEAT`        | Output      | XIAO `GPIO10`         | dtoverlay: gpio-led trigger     |
+| 14      | 8   | UART `TX`          | Output      | XIAO `RX` (`GPIO1`)   | Serial console                  |
+| 15      | 10  | UART `RX`          | Input       | XIAO `TX` (`GPIO0`)   | Serial console                  |
 | 17      | 11  | Shutdown Trigger   | Input       | Expander              | `dtoverlay=gpio-shutdown`       |
 | 27      | 13  | Reboot Trigger     | Input       | Expander              | `dtoverlay=gpio-restart`        |
 | 22      | 15  | User-defined Input | Input       | Expander              | Optional override or trigger    |
-| 14      | 8   | UART `TX`          | Output      | XIAO `RX` (`GPIO1`)   | Serial console                  |
-| 15      | 10  | UART `RX`          | Input       | XIAO `TX` (`GPIO0`)   | Serial console                  |
+| 5       | 29  | Poweroff-Ready     | Output      | Expander              | High when safe to power off     |
+| 6       | 31  | `HEARTBEAT`        | Output      | XIAO `GPIO10`         | dtoverlay: gpio-led trigger     |
 
 ---
 
