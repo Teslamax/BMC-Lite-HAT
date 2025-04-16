@@ -3,16 +3,14 @@
 ## 📦 Components
 
 - 1x **Seeed Studio XIAO RP2040** (USB-C, onboard RGB LED — used)
-- 1x **2×7 or 2×8 low-profile SMD female header** (for socketing XIAO)
-- 4x Momentary Pushbuttons
-- 4x 10kΩ resistors (external pull-ups or optional)
-- 4x 0.1µF ceramic capacitors (button debounce)
+- 1x **2×7 low-profile SMD female header** (for socketing XIAO)
+- 3x Momentary Pushbuttons (`SHUTDOWN`,`REBOOT`,`USER1`)
 - 1x 1N5819 Schottky Diode (Pi 5V → XIAO VIN, backfeed prevention)
-- 1x 1N5819 Schottky Diode (XIAO VIN → Pi 5V, reverse backfeed)
 - 1x 100 µF electrolytic capacitor (power smoothing)
-- 2x resistors (10kΩ + 4.7kΩ) for voltage divider (Pi 5V sense)
+- I²C expander (MCP23017 while breadboard prototyping)
 - Jumper wires / headers / breadboard
-- (Optional) I²C OLED or expander module on shared I²C bus (GPIOs 4/5 unused if onboard RGB LED is retained)
+- (Optional) I²C OLED
+- **Bidirectional UART** between Pi and XIAO (GPIO14 TX and GPIO15 RX)
 
 ---
 
@@ -20,47 +18,58 @@
 
 In future firmware and hardware expansions, BMC-Lite will evolve beyond passive monitoring to support **active Pi control** and additional diagnostics. The following features are targeted for Phase 2:
 
-- **Bidirectional UART** between Pi and XIAO (GPIO14 TX and GPIO15 RX)
 - **USB CDC** used exclusively for XIAO debug, control, and programming
 - **Optional I²C OLED display** for UI output
-- **Optional I²C GPIO expander** for more buttons or indicators
 
-To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C devices used for expanded capability. GPIO15 will be reserved for UART TX from XIAO to Pi.
+To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C devices used for expanded capability.
 
 ---
 
 ## 🧭 Raspberry Pi GPIO Assignments
 
 | Function            | Pi Pin # | BCM GPIO | Direction | Description                                  |
-|---------------------|----------|----------|-----------|----------------------------------------------|
-| Shutdown Trigger    | 15       | GPIO22   | Input     | Pi shuts down when pulled LOW by MCU         |
-| Poweroff Indicator  | 37       | GPIO26   | Output    | Pi drives HIGH when safe to power off        |
-| Reset Trigger       | 13       | GPIO27   | Input     | Pi reboots when pulled LOW by MCU            |
-| UART TX (Pi → MCU)  | 8        | GPIO14   | Output    | Serial console output from Pi                |
-| UART RX (Pi ← MCU)  | 10       | GPIO15   | Input     | Optional command or logging input to Pi      |
-| Heartbeat GPIO      | 11       | GPIO17   | Output    | Pi toggles HIGH/LOW to indicate activity     |
+|---------------------|----------|----------|:---------:|----------------------------------------------|
+| UART `TX` (Pi → MCU)  | 8        | `GPIO14`   | Output    | Serial console output from Pi                |
+| UART `RX` (Pi ← MCU)  | 10       | `GPIO15`   | Input     | Optional command or logging input to Pi      |
+| Heartbeat GPIO      | 11       | `GPIO17`   | Output    | Pi toggles HIGH/LOW to indicate activity     |
+| Reset Trigger       | 13       | `GPIO27`   | Input     | Pi reboots when pulled LOW by MCU            |
+| Shutdown Trigger    | 15       | `GPIO22`   | Input     | Pi shuts down when pulled LOW by MCU         |
+| Poweroff Indicator  | 37       | `GPIO26`   | Output    | Pi drives HIGH when safe to power off        |
 
 ---
 
-## 🧭 GPIO Assignments (XIAO RP2040)
+## 🧭 XIAO-RP2040 GPIO Assignments
 
-| Function            | XIAO Pin | RP2040 GPIO | Notes                             |
+| Function            | Pin | Label | Notes                             |
 |---------------------|----------|-------------|-----------------------------------|
-| Shutdown Button     | D0       | GPIO0       | Input from physical button        |
-| Reboot Button       | D1       | GPIO1       | Input from physical button        |
-| User Button 1       | D2       | GPIO2       | Optional `gpio-key`               |
-| RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED (may be reassigned) |
-| 5V Sense Input      | —        | GPIO6       | From Pi 5V via voltage divider    |
-| Poweroff Status     | D4       | GPIO7       | Input from Pi GPIO26              |
-| Shutdown Trigger    | D5       | GPIO8       | Output to Pi GPIO22               |
-| Restart Trigger     | D6       | GPIO9       | Output to Pi GPIO27               |
-| Heartbeat Monitor   | D7       | GPIO10      | Input from Pi GPIO17              |
-| UART RX (Pi TX)     | D8       | GPIO11      | Serial input from Pi GPIO14       |
-| UART TX (to Pi RX)  | —        | GPIO15      | Bidirectional UART TX from XIAO   |
+| I²C expander interrupt | 1 - `INT` | `GPIO26` | | |
+| RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED |
+| UART `TX`     | 7 - `TX`        | GPIO15      | Bidirectional UART TX from XIAO   |
+| UART `RX`     | 8 - `RX`       | GPIO11      | Serial input from Pi GPIO14       |
+| I²C data | 5 | `SDA` | I²C - data | I²C data |
+| I²C clock | 6 | `SCL` | I²C - clock | I²C clock |
 
 Note: The onboard RGB LED is retained for system status indication unless repurposed to free GPIOs. USB-C remains the exclusive debug/programming interface.
 
 The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow replacement or upgrade while keeping the main PCB reflow-friendly.
+
+---
+
+## 🧭 GPIO Assignments (MCP23017)
+
+| Function            | Pin      | Label       | Notes                             |
+|---------------------|----------|-------------|-----------------------------------|
+| I²C clock | 12 | `SCL` | I²C - clock | I²C clock |
+| I²C data | 13 | `SDA` | I²C - data | I²C data |
+| Poweroff Status     | 21       | `GPA0`      | Input from Pi `GPIO26`            |
+| Shutdown Trigger    | 22       | `GPA1`      |  Output to Pi `GPIO22`            |
+| Restart Trigger     | 23       | `GPA2`      |  Output to Pi `GPIO27`            |
+| Heartbeat Monitor   | 24       | `GPA3`      | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 25       | `GPA4`      | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 26       | `GPA5`      | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 27       | `GPA6`      | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 28       | `GPA7`      | Input from Pi `GPIO17`            |
+
 
 ---
 
