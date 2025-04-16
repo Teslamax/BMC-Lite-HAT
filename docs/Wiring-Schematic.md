@@ -67,17 +67,8 @@ The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow re
 ## 🔌 Power Wiring
 
 - **Pi 5V GPIO** → 1N5819 diode → XIAO VIN
-- **XIAO VIN** → 1N5819 diode → Pi 5V GPIO *(optional, only if Pi may be powered from XIAO)*
 - **XIAO GND** ↔ **Pi GND** (shared ground)
 - 100 µF electrolytic capacitor across VIN and GND on XIAO
-
----
-
-## 🔋 Voltage Divider (5V Sense)
-
-- R1 = 10kΩ (Pi 5V to XIAO GPIO6)
-- R2 = 4.7kΩ (XIAO GPIO6 to GND)
-- Output voltage ≈ 3.2V when Pi is powered
 
 ---
 
