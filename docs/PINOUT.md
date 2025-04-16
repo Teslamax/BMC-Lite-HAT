@@ -8,10 +8,6 @@
 | 1    | 2   | UART RX            | Pi → XIAO     | Pi GPIO14 (Pin 8)    | UART console                       |
 | 4    | 10  | I²C SDA            | Bidirectional | OLED, GPIO Expander  | Addr `0x3C` (OLED), `0x20` (MCP)   |
 | 5    | 5   | I²C SCL            | Bidirectional | OLED, GPIO Expander  | Shared I²C bus                     |
-| 6    | 6   | Shutdown to Pi     | Output        | Pi GPIO17 (Pin 11)   | Debounced output                   |
-| 7    | 7   | Reboot to Pi       | Output        | Pi GPIO27 (Pin 13)   | Debounced output                   |
-| 8    | 8   | User-defined to Pi | Output        | Pi GPIO22 (Pin 15)   | Debounced output                   |
-| 9    | 9   | Poweroff-Ready     | Input         | Pi GPIO5 (Pin 29)    | Level signal                       |
 | 10   | 10  | Heartbeat          | Input         | Pi GPIO6 (Pin 31)    | dtoverlay-driven 1Hz pulse         |
 | 26   | 1   | INT from Expander  | Input         | MCP23017 INT Pin     | INT fires on button state changes  |
 | 27   | 2   | Free               | —             | —                    | General-purpose                    |
@@ -24,12 +20,14 @@
 
 | Bank  | Pin      | Function             | Direction | Connected To | Notes                  |
 |-------|----------|----------------------|-----------|---------------|------------------------|
-| GPA0  | Button 1 | Input                | Input     | Button 1      | Debounced in software  |
-| GPA1  | Button 2 | Input                | Input     | Button 2      |                        |
-| GPA2  | Button 3 | Input                | Input     | Button 3      |                        |
-| GPB0  | Shutdown | Output to Pi        | Output    | Pi GPIO17     | Debounced logic state  |
-| GPB1  | Reboot   | Output to Pi        | Output    | Pi GPIO27     |                        |
-| GPB2  | User     | Output to Pi        | Output    | Pi GPIO22     |                        |
+| GPA0  | Shutdown button | Input                | Input     | Shutdown button      | Debounced in software  |
+| GPA1  | Reboot button | Input                | Input     | Reboot button      |                        |
+| GPA2  | User button | Input                | Input     | User button      |                        |
+| GPA6  | Poweroff-Ready | Input ||||
+| GPA4  | Shutdown | Output to Pi        | Output    | Pi GPIO17     | Debounced logic state  |
+| GPA5  | Reboot   | Output to Pi        | Output    | Pi GPIO27     |                        |
+| GPA6  | User     | Output to Pi        | Output    | Pi GPIO22     |                        |
+
 | GPx3–7| —        | Unused               | —         | —             | Reserved for expansion |
 
 ---
