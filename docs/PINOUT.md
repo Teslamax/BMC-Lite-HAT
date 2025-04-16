@@ -4,7 +4,7 @@
 
 | GPIO | Pin | Function            | Direction     | Connected To         | Notes                              |
 |------|-----|---------------------|---------------|----------------------|------------------------------------|
-| 26   | 1   | `INT` from Expander | Input         | MCP23017 `INT` Pin   | INT fires on button state changes  |
+| 26   | 1   | `INT` from Expander | Input         | *MCP23017* `INT` Pin | INT fires on button state changes  |
 | 27   | 2   | Free (`ADC1`)       | —             | —                    | General-purpose                    |
 | 28   | 3   | Free (`ADC2`)       | —             | —                    | ADC-capable input                  |
 | 29   | 4   | Free (`ADC3`)       | —             | —                    | ADC-capable input                  |
