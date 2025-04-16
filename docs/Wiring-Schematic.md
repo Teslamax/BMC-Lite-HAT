@@ -38,16 +38,16 @@ To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C device
 
 ---
 
-## 🧭 XIAO-RP2040 GPIO Assignments
+## 🧭 MCU *XIAO-RP2040* GPIO Assignments
 
-| Function            | Pin | Label | Notes                             |
-|---------------------|----------|-------------|-----------------------------------|
-| I²C expander interrupt | 1 - `INT` | `GPIO26` | | |
-| RGB LED             | —        | GPIO3/4/5   | Onboard RGB LED |
-| UART `TX` (MCU → Pi)     | 7        | `GPIO0`/`TX`      | Optional command or logging input to Pi   |
-| UART `RX` (MCU ← Pi)     | 8       | `GPIO1`/`RX`      | Serial console input from Pi GPIO14       |
-| I²C data | 5 | `SDA` | I²C - data | I²C data |
-| I²C clock | 6 | `SCL` | I²C - clock | I²C clock |
+| Function            | Pin | Label | Direction | Notes                             |
+|---------------------|----------|-------------|:---:|-----------------------------------|
+| I²C expander interrupt | 1 | `GPIO26` | IN |  Interrupt from I²C expander (*MCP23017*) |
+| RGB LED             | —        | GPIO3/4/5   |   | Onboard RGB LED |
+| UART `TX` (MCU → Pi)     | 7        | `GPIO0`/`TX`      | OUT | Optional command or logging input to Pi   |
+| UART `RX` (MCU ← Pi)     | 8       | `GPIO1`/`RX`      | IN | Serial console input from Pi GPIO14       |
+| I²C data | 5 | `SDA` | I²C - data | BUS | I²C data |
+| I²C clock | 6 | `SCL` | I²C - clock | BUS | I²C clock |
 
 Note: The onboard RGB LED is retained for system status indication unless repurposed to free GPIOs. USB-C remains the exclusive debug/programming interface.
 
@@ -57,19 +57,19 @@ The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow re
 
 ## 🧭 GPIO Assignments (MCP23017)
 
-| Function            | Pin      | Label       | Notes                             |
-|---------------------|----------|-------------|-----------------------------------|
-| I²C clock | 12 | `SCL` | I²C - clock | I²C clock |
-| I²C data | 13 | `SDA` | I²C - data | I²C data |
-| Poweroff Status     | 21       | `GPA0`      | Input from Pi `GPIO26`            |
-| Shutdown Trigger    | 22       | `GPA1`      |  Output to Pi `GPIO22`            |
-| Restart Trigger     | 23       | `GPA2`      |  Output to Pi `GPIO27`            |
-| Heartbeat Monitor   | 24       | `GPA3`      | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 25       | `GPA4`      | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 26       | `GPA5`      | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 27       | `GPA6`      | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 28       | `GPA7`      | Input from Pi `GPIO17`            |
-
+| Function            | Pin      | Label       | Direction | Notes                             |
+|---------------------|----------|-------------|:---:|-----------------------------------|
+| I²C clock           | 12       | `SCL`       | BUS | I²C - clock |
+| I²C data            | 13       | `SDA`       | BUS | I²C - data |
+| Interrupt           | 20       | `INT`       | OUT | I²C expander interrupt to MCU |
+| Poweroff Status     | 21       | `GPA0`      | IN | Input from Pi ``            |
+| Shutdown Trigger    | 22       | `GPA1`      | IN |  Output to Pi `GPIO22`            |
+| Restart Trigger     | 23       | `GPA2`      | IN |  Output to Pi `GPIO27`            |
+| Heartbeat Monitor   | 24       | `GPA3`      | IN | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 25       | `GPA4`      | IN | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 26       | `GPA5`      | OUT | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 27       | `GPA6`      | OUT | Input from Pi `GPIO17`            |
+| Heartbeat Monitor   | 28       | `GPA7`      | OUT | Input from Pi `GPIO17`            |
 
 ---
 
