@@ -21,8 +21,6 @@ In future firmware and hardware expansions, BMC-Lite will evolve beyond passive 
 - **USB CDC** used exclusively for XIAO debug, control, and programming
 - **Optional I²C OLED display** for UI output
 
-To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C devices used for expanded capability.
-
 ---
 
 ## 🔌 Power Wiring
