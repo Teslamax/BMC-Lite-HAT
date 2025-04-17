@@ -49,9 +49,9 @@
 | `GPA1` | 22 | Reboot button                | Input     | Reboot button   | Debounced in software  |
 | `GPA2` | 23 | User button                | Input     | User button     | Debounced in software  |
 | `GPA3` | 24 | Poweroff-Ready                | Input     |                 |                        |
-| `GPA4` | 25 | Signal safe halt     | XIAO → Pi | Pi `GPIO17`     | Debounced logic state  |
-| `GPA5` | 26 | Signal safe reboot   | XIAO → Pi | Pi `GPIO27`     | Debounced logic state  |
-| `GPA6` | 27 | Signal user-defined  | XIAO → Pi | Pi `GPIO22`     | Debounced logic state  |
+| `GPA4` | 25 | Signal safe halt     | XIAO → Pi | Pi `GPIO17`     | Logic state  |
+| `GPA5` | 26 | Signal safe reboot   | XIAO → Pi | Pi `GPIO27`     | Logic state  |
+| `GPA6` | 27 | Signal user-defined  | XIAO → Pi | Pi `GPIO22`     | Logic state  |
 | `GPA7` | 28 | Unused               | —         | —               | Reserved for expansion |
 | `GPB*` | —  | Unused               | —         | —               | Reserved for expansion |
 
