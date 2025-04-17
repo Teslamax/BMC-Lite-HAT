@@ -30,11 +30,11 @@ This document describes the three primary status/debug channels on the BMC Lite
 - Custom: `/i2cscan`, `/showheap`, `/reset`
 
 #### Firmware Echo & Pi‑UART Relay
-- **Firmware Echo**: Compile‑time default controlled by `ECHO_USER_INITIAL`, and runtime toggled with `/echo on` and `/echo off`. When enabled, every user‑entered line is echoed back over CDC prefixed with `ECHO_USER_PREFIX` (e.g. "➡️ ").  
-- **Pi UART Relay**: All lines received from the Pi’s UART (`Serial1`) are forwarded over USB‑CDC and prefixed with `PI_ECHO_PREFIX` (e.g. "🐧 ") to distinguish Pi‑originated messages from firmware logs.
-- `/echo on` / `/echo off`  → enable/disable per‑line user echo
-- `/loglevel N`             → set CDC verbosity (0=errors…3=all)
-- Custom: `/i2cscan`, `/showheap`, `/reset`
+- **Firmware Echo**
+  - Controlled by compile‑time macro `ECHO_USER_INITIAL` (default on/off) and runtime commands `/echo on` / `/echo off`.
+  - When enabled, each user‑entered line is echoed back over CDC *once per line* and prefixed with `ECHO_USER_PREFIX` (e.g. "➡️ ").
+- **Pi UART Relay**
+  - All data received on the Pi’s UART (`Serial1`) is forwarded over USB‑CDC and prefixed *once per line* with `PI_ECHO_PREFIX` (e.g. "🐧 ") to distinguish Pi‑originated text from firmware logs.
 
 ---
 
