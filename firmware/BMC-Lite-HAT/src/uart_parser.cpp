@@ -1,5 +1,14 @@
 #include "uart_parser.h"
 
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include "config.h"
+#include "pinout.h"
+#include "debug.h"
+
+// External display object declared in main.cpp or elsewhere
+extern Adafruit_SSD1306 display;
+
 static String piLineBuf;     // for Pi → USB parsing
 static bool  piAtLineStart = true;
 
@@ -12,20 +21,52 @@ void initUARTParser() {
   userLineBuf.reserve(128);
 }
 
-// Helper to match and handle “/echo on” or “/echo off”
 static void handleUserCommand(const String &line) {
   if (line.equalsIgnoreCase("/echo on")) {
     echoEnabled = true;
-    Serial.println( "🛠 Echo enabled");
-  } else if (line.equalsIgnoreCase("/echo off")) {
+    Serial.println("🛠 Echo enabled");
+  }
+  else if (line.equalsIgnoreCase("/echo off")) {
     echoEnabled = false;
     Serial.println("🛠 Echo disabled");
-  } else if (line.startsWith("/loglevel ")) {
+  }
+  else if (line.startsWith("/loglevel ")) {
     int lvl = line.substring(10).toInt();
     cdcLogLevel = constrain(lvl, 0, 3);
     logInfo("Log level set to %d", cdcLogLevel);
   }
-  
+  else if (line.startsWith("/i2cscan")) {
+    Serial.println("🔍 Scanning I2C...");
+    for (uint8_t addr = 1; addr < 127; addr++) {
+      Wire.beginTransmission(addr);
+      if (Wire.endTransmission() == 0) {
+        Serial.print("📟 Found device at 0x");
+        Serial.println(addr, HEX);
+      }
+      if (addr == OLED_I2C_ADDR) {
+        Serial.println("✅ Detected OLED display");
+      }
+    }
+    Serial.println("✅ I2C scan complete.");
+  }
+  else if (line.startsWith("/oledtest")) {
+    Serial.println("🖥 Testing OLED...");
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.println(F("BMC Lite HAT"));
+    display.println(F("OLED OK ✔"));
+    display.display();
+  }
+  else if (line.startsWith("/piuarttest")) {
+    Serial.println("📤 Sending test to Pi UART...");
+    Serial1.println("Hello from BMC Lite HAT via UART!");
+  }
+  else {
+    Serial.print("❓ Unknown command: ");
+    Serial.println(line);
+  }
 }
 
 static void processPiLine(const String &line) {
@@ -82,4 +123,16 @@ void parseUART() {
     // always forward to the Pi
     Serial1.write(c);
   }
+}
+
+void initSerialInterfaces() {
+  Serial.begin(115200);       // USB‑CDC
+  while (!Serial);            // wait for connection
+  logInfo("Starting BMC Lite HAT firmware v%s", FIRMWARE_VERSION);
+  
+  // Pi UART
+  Serial1.setTimeout(UART1_TIMEOUT_MS);   // optional, for read timeouts if needed
+  Serial1.begin(UART1_BAUDRATE, UART1_PARITY);
+  Serial1.println("📤 UART1- Pi UART initialized at " + String(UART1_BAUDRATE) + " baud");
+  Serial.println("🛠 Serial interfaces ready");
 }

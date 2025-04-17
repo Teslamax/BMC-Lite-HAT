@@ -7,3 +7,5 @@
 void initUARTParser();
 // Call in loop() to do both UART→USB and USB→UART
 void parseUART();
+
+void initSerialInterfaces();

@@ -4,6 +4,7 @@
 #include "status_led.h"
 #include "uart_parser.h"
 #include "buttons.h"
+#include "oled.h"
 
 void setup() {
   Serial.begin(115200);
@@ -11,15 +12,12 @@ void setup() {
   logInfo("Starting BMC Lite HAT firmware v%s", FIRMWARE_VERSION);
   Wire.begin();            // uses GP6/GP7 by default on the XIAO
 
-  Serial.println("I²C Scan:");
-  for (uint8_t addr = 1; addr < 127; addr++) {
-    Wire.beginTransmission(addr);
-    if (Wire.endTransmission() == 0) {
-      Serial.print(" • Found 0x");
-      Serial.println(addr, HEX);
-    }
-  }
-  Serial.println("Scan complete.");//  initStatusLED();
+
+  initDisplay();
+  drawHUD();  // Initial screen
+}
+
+//  initStatusLED();
 //  initButtons();
 //  initUARTParser();
 //  setSystemState(STATE_BOOTING);
