@@ -49,7 +49,7 @@ This document describes the three primary status/debug channels on the BMC Lite
 ╔════════════════════════╗
 ║ State: <STATE_NAME>    ║  ← line 1: current system state
 ║ Last Cmd: <text…>      ║  ← line 2: last console command
-║ I2C: 0x3C,0x20 OK       ║  ← line 3: bus health
+║ I2C: 0x3C,0x20 OK      ║  ← line 3: bus health
 ║ Uptime: 12s | Heap: 42K║  ← line 4: stats
 ╚════════════════════════╝
 ```
