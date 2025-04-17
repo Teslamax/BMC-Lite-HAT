@@ -36,7 +36,7 @@
 | `VDD`  | 9  |  |  |  |  |
 | `VSS`  | 10 |  |  |  |  |
 | —      | 11 |  |  |  |  |
-| `SCK`  | 12 | I²C `SCK` | Bidirectional  |  XIAO `SCK` | Shared I²C bus |
+| `SCL`  | 12 | I²C `SCL` | Bidirectional  |  XIAO `SCL` | Shared I²C bus |
 | `SDA`  | 13 | I²C `SDA` | Bidirectional  |  XIAO `SDA` | Shared I²C bus |
 | —      | 14 |  |  |  |  |
 | `A0`   | 15 |  |  |  |  |
