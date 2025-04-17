@@ -75,49 +75,11 @@ dtoverlay=gpio-led,gpio=6,trigger=heartbeat
 
 ## 🔢 GPIO Allocation Summary
 
-### ✅ GPIOs Used on the XIAO RP2040
-
-| GPIO  | Pin | Purpose                                     |
-|-------|-----|---------------------------------------------|
-| 26    | 1   | INT ← I²C expander                          |
-| 6     | 5   | I²C SDA → OLED & Expander (Addr `0x3C`, `0x20`) |
-| 7     | 6   | I²C SCL → OLED & Expander                   |
-| 0     | 7   | UART TX → Pi (GPIO15)                       |
-| 1     | 8   | UART RX ← Pi (GPIO14)                       |
+Check [docs/PINOUT.md](docs/PINOUT.md)
 
 ---
 
-### 🟡 Reserved or Flexible GPIOs on the XIAO RP2040
-
-| GPIO  | Pin | Alt Function | Suggested Use                          |
-|-------|-----|--------------|----------------------------------------|
-| 27    | 2   | ADC1         | General GPIO (ADC capable)             |
-| 28    | 3   | ADC2         | General GPIO (ADC capable)             |
-| 29    | 4   | ADC3         | General GPIO (ADC capable)             |
-| 2     | 9   | SPI SCK      | Reserve for future SPI use or test/debug |
-| 4     | 10  | SPI MISO     | Same as above                          |
-| 3     | 11  | SPI MOSI     | Same as above                          |
-
-> These 6 GPIOs are available for future functionality: SPI interface, analog sensors, additional user inputs, debug pads, or extra LEDs.
-
-### ✅ GPIOs Used on the I²C expander (MCP23008)
-
-| GPIO  | Pin | Purpose                           | IN/OUT  |
-|-------|-----|-----------------------------------|---------|
-|   0   |  12 | SHUTDOWN debounced                | OUT     |
-|   1   |  13 | SHUTDOWN button                   | IN      |
-|   2   |  14 | REBOOT debounced                  | OUT     |
-|   3   |  15 | REBOOT button                     | IN      |
-|   4   |  16 | USER1 debounced                   | OUT     |
-|   5   |  17 | USER1 button                      | IN      |
-|   6   |  18 | RDY_SHUTDOWN                      | IN      |
-|   7   |  19 | HEARTBEAT                         | IN      |
-
-> The 3 buttons (shutdown, reboot, user1) are debounced in software on the XIAO before being driven out to the Pi GPIOs. Each button uses **2 GPIOs on the I²C expander** (input + gated output). The 6 total debounced outputs are handled by the I²C expander.
-
----
-
-## 🔐 Power Safety Summary
+## 🔐 Power Safety Summary - subject to revision
 
 | Condition                     | Safe? | Notes                                             |
 |------------------------------|-------|---------------------------------------------------|
