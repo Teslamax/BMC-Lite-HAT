@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "config.h"
 #include "pinmap.h"
 #include "status_led.h"
 #include "uart_parser.h"
@@ -7,6 +8,7 @@
 void setup() {
   Serial.begin(115200);
   while(!Serial);          // wait for the USB‑CDC console
+  logInfo("Starting BMC Lite HAT firmware v%s", FIRMWARE_VERSION);
   Wire.begin();            // uses GP6/GP7 by default on the XIAO
 
   Serial.println("I²C Scan:");
@@ -44,20 +46,22 @@ void loop() {
 #include "buttons.h"
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);        // USB‑CDC
   while (!Serial);
 
-  Serial1.begin(115200);        // Pi’s UART on GP0/GP1
-  initStatusLED();              // your NeoPixel setup
-  initButtons();                // if you’re testing buttons
-  initUARTParser();             // reserve buffer, etc.
+  Serial1.begin(115200);       // UART0 on GP0/GP1
+  Wire.begin();
+
+  initStatusLED();
+  initButtons();
+  initUARTParser();
 
   setSystemState(STATE_BOOTING);
 }
 
 void loop() {
-  parseUART();                  // relay + parse → drive state machine
-  updateStatusLED();            // drive your NeoPixel based on currentState
-  checkButtons();               // if you want button‑driven overrides
+  parseUART();             // does both relay + parsing + echo
+  updateStatusLED();
+  checkButtons();
 }
 */
