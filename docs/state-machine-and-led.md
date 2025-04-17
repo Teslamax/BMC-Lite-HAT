@@ -4,6 +4,31 @@ This document defines the internal firmware state machine of the BMC-Lite HAT an
 
 ---
 
+## 🌈 LED Status Mapping
+
+| State            | Color       | Behavior     | Meaning                          |
+|------------------|-------------|--------------|----------------------------------|
+| Off              | ⚫ Off       | Off          | No Pi power                      |
+| Booting          | 🟠 Orange    | Breathing    | Parsing serial boot logs         |
+| Running          | 🟢 Green     | Solid        | Heartbeat OK                     |
+| Shutting Down    | 🟡 Yellow    | Slow Blink   | Shutdown in progress             |
+| Halted           | 🔴 Red       | Solid        | GPIO26 high: safe to power off   |
+| Crash / Panic    | 🟣 Magenta   | Fast Blink   | Kernel panic, log detected       |
+| Unresponsive     | 🟤 Amber     | 2s Blink     | Heartbeat timeout                |
+
+---
+
+### State Descriptions
+
+- **OFF**: No Pi power (5V not detected)
+- **BOOTING**: Serial console active, parsing boot messages
+- **RUNNING**: Heartbeat GPIO detected, Pi is healthy
+- **SHUTTING_DOWN**: Serial message indicates shutdown
+- **UNRESPONSIVE**: Heartbeat GPIO silent (timeout)
+- **CRASHED**: Kernel panic or failure detected in serial output
+- **HALTED**: GPIO26 pulled HIGH via dtoverlay = safe to power off
+- **OVERRIDE**: User override state, for testing or forcing modes
+
 ## 🧠 System State Machine
 
 ```mermaid
@@ -28,31 +53,6 @@ stateDiagram-v2
       used for testing or simulation
     end note
 ```
-
-### State Descriptions
-
-- **OFF**: No Pi power (5V not detected)
-- **BOOTING**: Serial console active, parsing boot messages
-- **RUNNING**: Heartbeat GPIO detected, Pi is healthy
-- **SHUTTING_DOWN**: Serial message indicates shutdown
-- **UNRESPONSIVE**: Heartbeat GPIO silent (timeout)
-- **CRASHED**: Kernel panic or failure detected in serial output
-- **HALTED**: GPIO26 pulled HIGH via dtoverlay = safe to power off
-- **OVERRIDE**: User override state, for testing or forcing modes
-
----
-
-## 🌈 LED Status Mapping
-
-| State            | Color       | Behavior     | Meaning                          |
-|------------------|-------------|--------------|----------------------------------|
-| Off              | ⚫ Off       | Off          | No Pi power                      |
-| Booting          | 🟠 Orange    | Breathing    | Parsing serial boot logs         |
-| Running          | 🟢 Green     | Solid        | Heartbeat OK                     |
-| Shutting Down    | 🟡 Yellow    | Slow Blink   | Shutdown in progress             |
-| Halted           | 🔴 Red       | Solid        | GPIO26 high: safe to power off   |
-| Crash / Panic    | 🟣 Magenta   | Fast Blink   | Kernel panic, log detected       |
-| Unresponsive     | 🟤 Amber     | 2s Blink     | Heartbeat timeout                |
 
 ---
 
