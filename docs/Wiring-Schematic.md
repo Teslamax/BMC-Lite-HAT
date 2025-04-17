@@ -25,59 +25,11 @@ To support this, the RGB LED GPIOs (GPIO3/4/5) may be reclaimed, and I²C device
 
 ---
 
-## 🧭 Raspberry Pi GPIO Assignments
-
-| Function            | Pi Pin # | BCM GPIO | Direction | Description                                  |
-|---------------------|----------|----------|:---------:|----------------------------------------------|
-| UART `TX` (Pi → MCU)  | 8        | `GPIO14`   | Output    | Serial console output from Pi                |
-| UART `RX` (Pi ← MCU)  | 10       | `GPIO15`   | Input     | Optional command or logging input to Pi      |
-| Heartbeat GPIO      | 11       | `GPIO17`   | Output    | Pi toggles HIGH/LOW to indicate activity     |
-| Reset Trigger       | 13       | `GPIO27`   | Input     | Pi reboots when pulled LOW by MCU            |
-| Shutdown Trigger    | 15       | `GPIO22`   | Input     | Pi shuts down when pulled LOW by MCU         |
-| Poweroff Indicator  | 37       | `GPIO26`   | Output    | Pi drives HIGH when safe to power off        |
-
----
-
-## 🧭 MCU *XIAO-RP2040* GPIO Assignments
-
-| Function            | Pin | Label | Direction | Notes                             |
-|---------------------|----------|-------------|:---:|-----------------------------------|
-| I²C expander interrupt | 1 | `GPIO26` | IN |  Interrupt from I²C expander (*MCP23017*) |
-| RGB LED             | —        | GPIO3/4/5   |   | Onboard RGB LED |
-| UART `TX` (MCU → Pi)     | 7        | `GPIO0`/`TX`      | OUT | Optional command or logging input to Pi   |
-| UART `RX` (MCU ← Pi)     | 8       | `GPIO1`/`RX`      | IN | Serial console input from Pi GPIO14       |
-| I²C data | 5 | `SDA` | BUS | I²C data |
-| I²C clock | 6 | `SCL` | BUS | I²C clock |
-
-Note: The onboard RGB LED is retained for system status indication unless repurposed to free GPIOs. USB-C remains the exclusive debug/programming interface.
-
-The XIAO RP2040 is socketed using low-profile **SMD female headers** to allow replacement or upgrade while keeping the main PCB reflow-friendly.
-
----
-
-## 🧭 GPIO Assignments (MCP23017)
-
-| Function            | Pin      | Label       | Direction | Notes                             |
-|---------------------|----------|-------------|:---:|-----------------------------------|
-| I²C clock           | 12       | `SCL`       | BUS | I²C clock |
-| I²C data            | 13       | `SDA`       | BUS | I²C data |
-| Interrupt           | 20       | `INT`       | OUT | I²C expander interrupt to MCU |
-| Poweroff Status     | 21       | `GPA0`      | IN | Input from Pi ``            |
-| Shutdown Trigger    | 22       | `GPA1`      | IN |  Output to Pi `GPIO22`            |
-| Restart Trigger     | 23       | `GPA2`      | IN |  Output to Pi `GPIO27`            |
-| Heartbeat Monitor   | 24       | `GPA3`      | IN | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 25       | `GPA4`      | IN | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 26       | `GPA5`      | OUT | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 27       | `GPA6`      | OUT | Input from Pi `GPIO17`            |
-| Heartbeat Monitor   | 28       | `GPA7`      | OUT | Input from Pi `GPIO17`            |
-
----
-
 ## 🔌 Power Wiring
 
 - **Pi 5V GPIO** → 1N5819 diode → XIAO VIN
 - **XIAO GND** ↔ **Pi GND** (shared ground)
-- 100 µF electrolytic capacitor across VIN and GND on XIAO
+- 47-100 µF electrolytic capacitor across VIN and GND on XIAO
 
 ---
 
