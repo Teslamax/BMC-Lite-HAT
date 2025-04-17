@@ -2,6 +2,7 @@
 #include "config.h"
 #include "pinmap.h"
 #include "status_led.h"
+#include "debug.h"
 #include "uart_parser.h"
 #include "buttons.h"
 #include "oled.h"
@@ -21,7 +22,7 @@ void setup() {
 //  initButtons();
 //  initUARTParser();
 //  setSystemState(STATE_BOOTING);
-}
+
 
 void loop() {
 //  updateStatusLED();

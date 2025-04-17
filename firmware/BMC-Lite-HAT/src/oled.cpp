@@ -1,6 +1,6 @@
 // oled.cpp
 #include "oled.h"
-#include "pinout.h"
+#include "pinmap.h"
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 

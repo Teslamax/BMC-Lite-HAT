@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pinmap.h"
+
 enum SystemState {
   STATE_OFF,
   STATE_BOOTING,

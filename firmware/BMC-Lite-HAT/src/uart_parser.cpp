@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
 #include "config.h"
-#include "pinout.h"
+#include "pinmap.h"
 #include "debug.h"
 
 // External display object declared in main.cpp or elsewhere
