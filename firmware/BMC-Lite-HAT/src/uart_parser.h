@@ -9,3 +9,7 @@ void initUARTParser();
 void parseUART();
 
 void initSerialInterfaces();
+
+void pulseLed(uint8_t pin);
+
+void markCdcActivity();

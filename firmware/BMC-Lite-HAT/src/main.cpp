@@ -7,29 +7,40 @@
 #include "buttons.h"
 #include "oled.h"
 
+/*
 void setup() {
-  Serial.begin(115200);
-  while(!Serial);          // wait for the USB‑CDC console
-  logInfo("Starting BMC Lite HAT firmware v%s", FIRMWARE_VERSION);
+  initSerialInterfaces();
+  
   Wire.begin();            // uses GP6/GP7 by default on the XIAO
+  
+  initStatusLED();
 
+  pinMode(LED_RED_PIN, OUTPUT);
+  pinMode(LED_GREEN_PIN, OUTPUT);
+  pinMode(LED_BLUE_PIN, OUTPUT);
+  digitalWrite(LED_RED_PIN, LOW);
+  digitalWrite(LED_GREEN_PIN, LOW);
+  digitalWrite(LED_BLUE_PIN, LOW);
+
+
+//  initButtons();
+
+  initUARTParser();
+//  setSystemState(STATE_BOOTING);
 
   initDisplay();
   drawHUD();  // Initial screen
 }
 
-//  initStatusLED();
-//  initButtons();
-//  initUARTParser();
-//  setSystemState(STATE_BOOTING);
 
 
 void loop() {
-//  updateStatusLED();
+  updateStatusLED();
+  updateCdcActivityLED();
 //  checkButtons();
-//  parseUART();
+  parseUART();
 }
-
+*/
 
 
 

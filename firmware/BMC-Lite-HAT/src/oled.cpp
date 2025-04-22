@@ -1,6 +1,7 @@
 // oled.cpp
 #include "oled.h"
 #include "pinmap.h"
+#include "buttons.h"
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
@@ -32,3 +33,19 @@ void showPopup(const char *msg) {
   delay(1500);  // hold briefly
   drawHUD();    // return to normal screen
 }
+
+void drawButtonStatus() {
+    display.setTextSize(1);
+    display.setCursor(0, 32);  // adjust Y as needed
+    display.fillRect(0, 32, 128, 16, BLACK);  // clear previous status area
+  
+    display.print("BTN: ");
+    display.print("S=");
+    display.print(EXP_SIGNAL_SHUTDOWN ? "✓" : "✗");
+    display.print(" R=");
+    display.print(EXP_SIGNAL_REBOOT ? "✓" : "✗");
+    display.print(" U=");
+    display.print(EXP_SIGNAL_USER1 ? "✓" : "✗");
+  
+    display.display();
+  }

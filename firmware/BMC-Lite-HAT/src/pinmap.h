@@ -59,17 +59,17 @@
 // ─────────────────────────────────────────────
 
 // Raw button input pins (un-debounced)
-#define EXP_BUTTON_RAW_SHUTDOWN   0
-#define EXP_BUTTON_RAW_REBOOT     1
-#define EXP_BUTTON_RAW_USER1      2
+#define EXP_BUTTON_RAW_SHUTDOWN   0 // GPA0
+#define EXP_BUTTON_RAW_REBOOT     1 // GPA1
+#define EXP_BUTTON_RAW_USER1      2 // GPA2
 
 // LEDs controlled via expander
-#define EXP_LED_POWEROFF       3  // RED: safe to remove power
+#define EXP_LED_POWEROFF            3    // GPA3  (RED: safe to remove power)
 
 // Debounced logical state (used by firmware)
-#define EXP_SIGNAL_SHUTDOWN    4
-#define EXP_SIGNAL_REBOOT      5
-#define EXP_SIGNAL_USER1       6
+#define EXP_GPIO_SIG_SHUTDOWN    4    // GPA4
+#define EXP_GPIO_SIG_REBOOT      5    // GPA5
+#define EXP_GPIO_SIG_USER1       6    // GPA6
 
 //#define EXP_LED_USER_MODE      9  // Optional user-defined status LED
 

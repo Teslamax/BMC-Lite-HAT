@@ -70,4 +70,35 @@ void updateStatusLED() {
       (uint8_t)(b * brightness));
   }
   strip.show();
+}
+
+void updateCdcActivityLED() {
+  static unsigned long lastActivity = 0;
+  static bool ledOn = false;
+
+  // Check if USB-CDC is connected
+  if (Serial) {
+    // Check for incoming or outgoing CDC data
+    if (Serial.available() > 0) {
+      lastActivity = millis();
+      if (!ledOn) {
+        digitalWrite(LED_BLUE_PIN, HIGH);
+        ledOn = true;
+      }
+    }
+
+    // (optional) check if you're writing to Serial as well
+    // If your code writes via Serial.print(...), you can manually call:
+    // markCdcActivity();
+
+    // If enough time passed with no activity, turn off LED
+    if (ledOn && (millis() - lastActivity > 200)) {
+      digitalWrite(LED_BLUE_PIN, LOW);
+      ledOn = false;
+    }
+  } else {
+    // USB not connected — ensure LED is off
+    digitalWrite(LED_BLUE_PIN, LOW);
+    ledOn = false;
   }
+}

@@ -22,6 +22,15 @@ void initUARTParser() {
 }
 
 static void handleUserCommand(const String &line) {
+  /*
+  Serial.print("📥 Received command: '");
+  Serial.print(line);
+  Serial.println("'");
+  */
+
+  String cmd = line;
+  cmd.trim();  // ← this removes \r or spaces accidentally typed
+
   if (line.equalsIgnoreCase("/echo on")) {
     echoEnabled = true;
     Serial.println("🛠 Echo enabled");
@@ -76,7 +85,15 @@ static void processPiLine(const String &line) {
 }
 
 void parseUART() {
-  // — UART (Pi) → USB (PC) with PI_ECHO_PREFIX per line —
+  static bool piAtLineStart = true;
+  static bool userAtLineStart = true;
+
+  if (!Serial) {
+    // Optional debug over LED or UART1
+    return; // bail early - no CDC
+  }
+
+  // — Pi → USB (Green LED, CDC activity) —
   while (Serial1.available()) {
     char c = Serial1.read();
     if (piAtLineStart) {
@@ -91,43 +108,72 @@ void parseUART() {
     } else if (c != '\r') {
       piLineBuf += c;
     }
+
+    pulseLed(LED_GREEN_PIN);   // blink green on RX
+    markCdcActivity();         // CDC activity (input from Pi)
   }
 
-  // — USB (you) → UART (Pi) *and* optional ECHO_USER_PREFIX per line —
+  // — USB → Pi (Red LED, CDC activity) —
+ 
+  /*
+    if (Serial.available() > 0) {
+      Serial.println("🟦 Incoming CDC byte...");
+    }
+  */
+    
+  
+
+ 
   while (Serial.available()) {
     char c = Serial.read();
+    markCdcActivity();         // CDC activity (input from host)
+    pulseLed(LED_RED_PIN);     // blink red on TX
 
-    // start buffering a new user line
+  /*
+  // DEBUG: show every character
+  Serial.print("🔸 Read: '");
+  Serial.print(c);
+  Serial.print("' (");
+  Serial.print((int)c);  // ASCII code
+  Serial.println(")");
+  */
+
     if (userAtLineStart) {
       userLineBuf = "";
       userAtLineStart = false;
     }
     userLineBuf += c;
 
-    if (c == '\n') {
-      // at end of line: handle any user commands
-      handleUserCommand(userLineBuf);
+    if (c == '\n' || c == '\r') {
+      userLineBuf.trim();  // ← very important to clean \r etc
 
-      // if echo is enabled, print the prefix + the full line
+/*
+      Serial.print("📥 Full command: ");
+      Serial.println(userLineBuf);
+*/  
       if (echoEnabled) {
         Serial.print(ECHO_USER_PREFIX);
-        Serial.print(userLineBuf);
+        Serial.println(userLineBuf);  // echo the full line
       }
+
+      handleUserCommand(userLineBuf); // parse after echoing
 
       userAtLineStart = true;
     } else if (echoEnabled && userAtLineStart) {
-      // If you wanted a prefix at the very first character
       Serial.print(ECHO_USER_PREFIX);
     }
 
-    // always forward to the Pi
     Serial1.write(c);
   }
 }
 
+
 void initSerialInterfaces() {
   Serial.begin(115200);       // USB‑CDC
   while (!Serial);            // wait for connection
+
+  delay(200);
+  Serial.println("🟦 USB CDC ready");  // Always confirm this in setup()
   logInfo("Starting BMC Lite HAT firmware v%s", FIRMWARE_VERSION);
   
   // Pi UART
@@ -135,4 +181,36 @@ void initSerialInterfaces() {
   Serial1.begin(UART1_BAUDRATE, UART1_PARITY);
   Serial1.println("📤 UART1- Pi UART initialized at " + String(UART1_BAUDRATE) + " baud");
   Serial.println("🛠 Serial interfaces ready");
+}
+
+void pulseLed(uint8_t pin) {
+  digitalWrite(pin, HIGH);
+  delayMicroseconds(2000);  // ~2ms pulse
+  digitalWrite(pin, LOW);
+} 
+
+void markCdcActivity() {
+  static unsigned long lastCdc = 0;
+  static bool cdcOn = false;
+
+  lastCdc = millis();
+  if (!cdcOn) {
+    digitalWrite(LED_BLUE_PIN, HIGH);
+    cdcOn = true;
+  }
+
+  // Schedule shutdown of LED later
+  static unsigned long* lastPtr = &lastCdc;
+  static bool* cdcFlag = &cdcOn;
+
+  static struct {
+    void update() {
+      if (*cdcFlag && millis() - *lastPtr > 200) {
+        digitalWrite(LED_BLUE_PIN, LOW);
+        *cdcFlag = false;
+      }
+    }
+  } ledController;
+
+  ledController.update();
 }

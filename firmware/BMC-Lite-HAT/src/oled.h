@@ -6,3 +6,4 @@ void initDisplay();
 void drawHUD();
 void showPopup(const char *msg);
 extern Adafruit_SSD1306 display;
+void drawButtonStatus();

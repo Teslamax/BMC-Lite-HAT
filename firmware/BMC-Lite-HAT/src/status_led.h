@@ -15,3 +15,5 @@ enum SystemState {
 void initStatusLED();
 void setSystemState(SystemState state);
 void updateStatusLED();
+
+void updateCdcActivityLED();
