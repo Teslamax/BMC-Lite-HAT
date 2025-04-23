@@ -35,17 +35,20 @@ void showPopup(const char *msg) {
 }
 
 void drawButtonStatus() {
-    display.setTextSize(1);
-    display.setCursor(0, 32);  // adjust Y as needed
-    display.fillRect(0, 32, 128, 16, BLACK);  // clear previous status area
+    // clear the lower region (adjust Y as needed)
+    const int y0 = 48, h = 16;
+    display.fillRect(0, y0, display.width(), h, SSD1306_BLACK);
   
-    display.print("BTN: ");
-    display.print("S=");
-    display.print(EXP_SIGNAL_SHUTDOWN ? "✓" : "✗");
-    display.print(" R=");
-    display.print(EXP_SIGNAL_REBOOT ? "✓" : "✗");
-    display.print(" U=");
-    display.print(EXP_SIGNAL_USER1 ? "✓" : "✗");
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, y0 + 0);
+  
+    display.print("S:");
+    display.print(EXP_SIGNAL_SHUTDOWN ? "1" : "0");
+    display.print(" R:");
+    display.print(EXP_SIGNAL_REBOOT   ? "1" : "0");
+    display.print(" U:");
+    display.print(EXP_SIGNAL_USER1    ? "1" : "0");
   
     display.display();
   }

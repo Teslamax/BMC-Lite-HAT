@@ -13,49 +13,52 @@
 //#include "status_led.h"
 //#include "debug.h"
 
-Adafruit_MCP23X17 mcp;
+//Adafruit_MCP23X17 mcp;
 
 void setup() {
   initSerialInterfaces();
   Wire.begin();            // uses GP6/GP7 by default on the XIAO
 
-  
-
   initStatusLED();
 
-
+/*
+  // what was this again?
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(LED_BLUE_PIN, OUTPUT);
   digitalWrite(LED_RED_PIN, LOW);
   digitalWrite(LED_GREEN_PIN, LOW);
   digitalWrite(LED_BLUE_PIN, LOW);
+*/
 
-
-//  initButtons();
+  initButtons();
 
   initUARTParser();
-//  setSystemState(STATE_BOOTING);
+  setSystemState(STATE_BOOTING);
 
   initDisplay();
+  drawButtonStatus();
+
   drawHUD();  // Initial screen
 }
 
 
 
 void loop() {
+  parseUART();
   updateStatusLED();
   updateCdcActivityLED();
-  parseUART();
   checkButtons();
 
+/*
   Serial.print("GPA0: ");
-Serial.print(mcp.digitalRead(0));
-Serial.print(" | GPA1: ");
-Serial.print(mcp.digitalRead(1));
-Serial.print(" | GPA2: ");
-Serial.println(mcp.digitalRead(2));
-delay(250);  // slow down for readability
+  Serial.print(mcp.digitalRead(0));
+  Serial.print(" | GPA1: ");
+  Serial.print(mcp.digitalRead(1));
+  Serial.print(" | GPA2: ");
+  Serial.println(mcp.digitalRead(2));
+  delay(250);  // slow down for readability
+*/
 
 }
 

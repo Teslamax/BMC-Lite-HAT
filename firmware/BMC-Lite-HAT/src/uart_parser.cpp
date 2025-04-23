@@ -72,6 +72,15 @@ static void handleUserCommand(const String &line) {
     Serial.println("📤 Sending test to Pi UART...");
     Serial1.println("Hello from BMC Lite HAT via UART!");
   }
+  else if (line.equalsIgnoreCase("/help")) {
+    Serial.println("🆘 Available commands:");
+    Serial.println("  /help             - Show this help message");
+    Serial.println("  /echo on|off      - Enable or disable input echo");
+    Serial.println("  /loglevel [0-3]   - Set log verbosity");
+    Serial.println("  /i2cscan          - Scan I2C bus for connected devices");
+    Serial.println("  /oledtest         - Run OLED screen diagnostic");
+    Serial.println("  /piuarttest       - Send test message to Pi UART");
+  }
   else {
     Serial.print("❓ Unknown command: ");
     Serial.println(line);
@@ -88,10 +97,14 @@ void parseUART() {
   static bool piAtLineStart = true;
   static bool userAtLineStart = true;
 
+  /*
   if (!Serial) {
     // Optional debug over LED or UART1
     return; // bail early - no CDC
   }
+  */
+  // if (!Serial && millis() < 5000) return;
+
 
   // — Pi → USB (Green LED, CDC activity) —
   while (Serial1.available()) {
@@ -115,11 +128,12 @@ void parseUART() {
 
   // — USB → Pi (Red LED, CDC activity) —
  
-  /*
+  
+    /*
     if (Serial.available() > 0) {
       Serial.println("🟦 Incoming CDC byte...");
     }
-  */
+    */
     
   
 
@@ -129,8 +143,9 @@ void parseUART() {
     markCdcActivity();         // CDC activity (input from host)
     pulseLed(LED_RED_PIN);     // blink red on TX
 
-  /*
+  
   // DEBUG: show every character
+  /*
   Serial.print("🔸 Read: '");
   Serial.print(c);
   Serial.print("' (");
@@ -138,32 +153,39 @@ void parseUART() {
   Serial.println(")");
   */
 
-    if (userAtLineStart) {
-      userLineBuf = "";
-      userAtLineStart = false;
+  if (userAtLineStart) {
+    userLineBuf = "";
+    userAtLineStart = false;
+    if (echoEnabled) Serial.print(ECHO_USER_PREFIX);
+  }
+
+  // Handle Enter (CR or LF)
+  if (c == '\r' || c == '\n') {
+    if (echoEnabled) Serial.println();  // move to new line
+    userLineBuf.trim();  // sanitize input
+    handleUserCommand(userLineBuf);     // process command
+    userAtLineStart = true;
+    continue;
+  }
+
+  // Handle Backspace/Delete
+  if (c == 8 || c == 127) {
+    if (userLineBuf.length() > 0) {
+      userLineBuf.remove(userLineBuf.length() - 1);
+      if (echoEnabled) Serial.print("\b \b");  // erase visually
     }
+    continue;
+  }
+
+  // Handle printable characters
+  if (c >= 32 && c <= 126) {
     userLineBuf += c;
+    if (echoEnabled) Serial.write(c);  // echo char
+  }
 
-    if (c == '\n' || c == '\r') {
-      userLineBuf.trim();  // ← very important to clean \r etc
+  // Forward all typed input to Pi regardless
+  Serial1.write(c);
 
-/*
-      Serial.print("📥 Full command: ");
-      Serial.println(userLineBuf);
-*/  
-      if (echoEnabled) {
-        Serial.print(ECHO_USER_PREFIX);
-        Serial.println(userLineBuf);  // echo the full line
-      }
-
-      handleUserCommand(userLineBuf); // parse after echoing
-
-      userAtLineStart = true;
-    } else if (echoEnabled && userAtLineStart) {
-      Serial.print(ECHO_USER_PREFIX);
-    }
-
-    Serial1.write(c);
   }
 }
 
@@ -180,7 +202,9 @@ void initSerialInterfaces() {
   Serial1.setTimeout(UART1_TIMEOUT_MS);   // optional, for read timeouts if needed
   Serial1.begin(UART1_BAUDRATE, UART1_PARITY);
   Serial1.println("📤 UART1- Pi UART initialized at " + String(UART1_BAUDRATE) + " baud");
+
   Serial.println("🛠 Serial interfaces ready");
+  Serial.println("Type /help for commands.");
 }
 
 void pulseLed(uint8_t pin) {

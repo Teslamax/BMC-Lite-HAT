@@ -1,6 +1,6 @@
 #pragma once
 
-#define FIRMWARE_VERSION "0 - b1 (dev)"
+#define FIRMWARE_VERSION "0-b1 (dev)"
 
 // ———————————————————————————————
 // User‑echo compile‑time defaults
