@@ -52,24 +52,25 @@
 // | DEBUG_PIN_*            | I/O       | XIAO GPIO 2–9  | Debug/expansion testpoints
 // | EXP_BUTTON_RAW_*       | I         | MCP23017       | Raw expander button inputs
 // | EXP_SIGNAL_*           | Logic     | Firmware       | Debounced button states
-// | EXP_LED_POWEROFF       | O         | MCP23017       | Power-off status LED
+// | EXP_LED_POWEROFF       | I         | MCP23017       | Power-off status LED
 
 // ─────────────────────────────────────────────
 // MCP23017 I/O Expander Virtual GPIO Mapping
 // ─────────────────────────────────────────────
 
 // Raw button input pins (un-debounced)
-#define EXP_BUTTON_RAW_SHUTDOWN   0 // GPA0
-#define EXP_BUTTON_RAW_REBOOT     1 // GPA1
-#define EXP_BUTTON_RAW_USER1      2 // GPA2
+#define EXP_BUTTON_RAW_SHUTDOWN 0   // GPA0
+#define EXP_BUTTON_RAW_REBOOT   1   // GPA1
+#define EXP_BUTTON_RAW_USER1    2   // GPA2
 
-// LEDs controlled via expander
-#define EXP_LED_POWEROFF            3    // GPA3  (RED: safe to remove power)
+// LEDs controlled via expander  (RED: safe to remove power)
+#define EXP_LED_POWEROFF_RAW    3   // GPA3 → MCP23017-DIP pin 24 → breadboard row 33/E
+// MCP23017.GPA3 (pin 24) → Pi.GPIO5 (pin 29) 
 
 // Debounced logical state (used by firmware)
-#define EXP_GPIO_SIG_SHUTDOWN    4    // GPA4
-#define EXP_GPIO_SIG_REBOOT      5    // GPA5
-#define EXP_GPIO_SIG_USER1       6    // GPA6
+#define EXP_GPIO_SIG_SHUTDOWN   4   // GPA4
+#define EXP_GPIO_SIG_REBOOT     5   // GPA5
+#define EXP_GPIO_SIG_USER1      6   // GPA6
 
 //#define EXP_LED_USER_MODE      9  // Optional user-defined status LED
 

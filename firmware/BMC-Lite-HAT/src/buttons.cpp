@@ -32,6 +32,9 @@ void initButtons() {
   mcp.pinMode(EXP_BUTTON_RAW_REBOOT,   INPUT_PULLUP);
   mcp.pinMode(EXP_BUTTON_RAW_USER1,    INPUT_PULLUP);
 
+  // configure the power-off LED pin as input
+  mcp.pinMode(EXP_LED_POWEROFF_RAW, INPUT);
+
   // configure each output pin as output
   mcp.pinMode(EXP_GPIO_SIG_SHUTDOWN, OUTPUT);
   mcp.pinMode(EXP_GPIO_SIG_REBOOT,   OUTPUT);

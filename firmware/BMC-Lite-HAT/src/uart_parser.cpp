@@ -55,6 +55,9 @@ static void handleUserCommand(const String &line) {
       if (addr == OLED_I2C_ADDR) {
         Serial.println("✅ Detected OLED display");
       }
+      if (addr == MCP23017_I2C_ADDR) {
+        Serial.println("✅ Detected I2C expander");
+      }
     }
     Serial.println("✅ I2C scan complete.");
   }
@@ -74,12 +77,12 @@ static void handleUserCommand(const String &line) {
   }
   else if (line.equalsIgnoreCase("/help")) {
     Serial.println("🆘 Available commands:");
-    Serial.println("  /help             - Show this help message");
-    Serial.println("  /echo on|off      - Enable or disable input echo");
-    Serial.println("  /loglevel [0-3]   - Set log verbosity");
-    Serial.println("  /i2cscan          - Scan I2C bus for connected devices");
-    Serial.println("  /oledtest         - Run OLED screen diagnostic");
-    Serial.println("  /piuarttest       - Send test message to Pi UART");
+    Serial.println("   /help             - Show this help message");
+    Serial.println("   /echo on|off      - Enable or disable input echo");
+    Serial.println("   /loglevel [0-3]   - Set log verbosity");
+    Serial.println("   /i2cscan          - Scan I2C bus for connected devices");
+    Serial.println("   /oledtest         - Run OLED screen diagnostic");
+    Serial.println("   /piuarttest       - Send test message to Pi UART");
   }
   else {
     Serial.print("❓ Unknown command: ");
@@ -192,7 +195,10 @@ void parseUART() {
 
 void initSerialInterfaces() {
   Serial.begin(115200);       // USB‑CDC
-  while (!Serial);            // wait for connection
+
+  // Wait for USB-CDC to be ready - don't block forever
+  unsigned long t0 = millis();
+  while (!Serial && millis() - t0 < 2000) { /* blink LED or do nothing */ }
 
   delay(200);
   Serial.println("🟦 USB CDC ready");  // Always confirm this in setup()
